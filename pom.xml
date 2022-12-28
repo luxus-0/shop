@@ -9,12 +9,12 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>pl.nowogorski</groupId>
-	<artifactId>Shop_backend</artifactId>
+	<artifactId>shop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Ecommerce_shop_backend</name>
-	<description>Demo project for Spring Boot</description>
+	<name>shop</name>
+	<description>Shop application</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
