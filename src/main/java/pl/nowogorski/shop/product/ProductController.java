@@ -28,7 +28,7 @@ class ProductController {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
     }
 
-    @GetMapping
+    @GetMapping("/{page}/{size}")
     ResponseEntity<Page<Product>> readProducts(@PathVariable int page,@PathVariable int size){
         return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
