@@ -67,10 +67,10 @@ class ProductDatabaseImpl {
 
     ProductDto toProductDto(Product product){
         return new ProductDto(
-                product.name(),
-                product.category(),
-                product.description(),
-                product.price(),
-                product.currency());
+                product.getName(),
+                product.getCategory(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getCurrency());
     }
 }
