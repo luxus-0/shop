@@ -29,7 +29,7 @@ class ProductController {
     }
 
     @GetMapping
-    ResponseEntity<Page<Product>> readProducts(int page, int size){
+    ResponseEntity<Page<Product>> readProducts(@PathVariable int page,@PathVariable int size){
         return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
 
