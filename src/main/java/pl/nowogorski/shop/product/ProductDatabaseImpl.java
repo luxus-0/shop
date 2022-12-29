@@ -19,20 +19,20 @@ class ProductDatabaseImpl {
     List<ProductDto> readProducts() {
         return productRepository.findAll()
                 .stream()
-                .map(ProductMapper::toDto)
+                .map(this::toProductDto)
                 .collect(Collectors.toList());
     }
 
     public ProductDto readProducts(Long id) throws ProductNotFoundException {
         return productRepository.findById(id)
-                .map(ProductMapper::toDto)
+                .map(this::toProductDto)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     ProductDto addProduct(Product product) throws ProductNotFoundException {
         Product productSaved = productRepository.save(product);
         return Stream.of(productSaved)
-                .map(ProductMapper::toDto)
+                .map(this::toProductDto)
                 .findAny()
                 .orElseThrow(ProductNotFoundException::new);
     }
@@ -50,12 +50,21 @@ class ProductDatabaseImpl {
                 Product productBuild = productRepository.save(product);
 
                 return Stream.of(productBuild)
-                        .map(ProductMapper::toDto)
+                        .map(this::toProductDto)
                         .findAny()
                         .orElseThrow();
     }
 
     void clearProduct(){
         productRepository.deleteAll();
+    }
+
+    ProductDto toProductDto(Product product){
+        return new ProductDto(
+                product.name(),
+                product.category(),
+                product.description(),
+                product.price(),
+                product.currency());
     }
 }

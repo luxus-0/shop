@@ -29,7 +29,8 @@ class ProductController {
 
     @PostMapping
     ResponseEntity<ProductDto> createProduct(@RequestBody Product product) throws ProductNotFoundException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productDatabaseImpl.addProduct(product));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(productDatabaseImpl.addProduct(product));
     }
 
     @PutMapping("/{id}")
