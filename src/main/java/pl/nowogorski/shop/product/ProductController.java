@@ -1,5 +1,6 @@
 package pl.nowogorski.shop.product;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,11 @@ class ProductController {
     @GetMapping("/products/{id}")
     ResponseEntity<ProductDto> readProducts(@PathVariable Long id) throws ProductNotFoundException {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
+    }
+
+    @GetMapping
+    ResponseEntity<Page<Product>> readProducts(int page, int size){
+        return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
 
     @PostMapping
