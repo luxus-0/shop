@@ -45,7 +45,8 @@ class ProductController {
     }
 
     @DeleteMapping
-    void removeProduct() {
+    ResponseEntity<ProductDto> removeProduct() {
         productDatabaseImpl.clearProduct();
+        return ResponseEntity.noContent().build();
     }
 }
