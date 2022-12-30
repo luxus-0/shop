@@ -1,6 +1,7 @@
 package pl.nowogorski.shop.admin;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,7 @@ class AdminProductController {
     AdminProductController(AdminProductImpl adminProductImpl) {
         this.adminProductImpl = adminProductImpl;
     }
-    @GetMapping("/admin/products")
-    Page<AdminProduct> getProducts(@RequestParam int page, @RequestParam int size){
-        return adminProductImpl.readProducts(page, size);
-    }
+
 
     @GetMapping("/admin/products")
     ResponseEntity<List<AdminProductDto>> readProducts() {
@@ -34,6 +32,10 @@ class AdminProductController {
         return ResponseEntity.ok(adminProductImpl.readProducts(id));
     }
 
+    ResponseEntity<Page<AdminProduct>> readProducts(@RequestBody PageRequest pageRequest) {
+        return ResponseEntity.ok(adminProductImpl.readProducts(pageRequest));
+    }
+
     @PostMapping("/admin/products")
     @ResponseStatus(HttpStatus.CREATED)
     AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
@@ -41,7 +43,7 @@ class AdminProductController {
     }
 
     @PutMapping("/admin/products/{id}")
-    ResponseEntity<AdminProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+    ResponseEntity<AdminProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws ProductNotUpdateException {
         return ResponseEntity.ok(adminProductImpl.actualizeProduct(id, productDto));
     }
 

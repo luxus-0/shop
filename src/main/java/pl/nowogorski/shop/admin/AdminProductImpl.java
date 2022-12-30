@@ -30,15 +30,15 @@ class AdminProductImpl {
                 .orElseThrow(() -> new AdminProductNotFoundException(id));
     }
 
-    Page<AdminProduct> readProducts(int page, int size){
-        return adminProductRepository.findAll(PageRequest.of(page, size));
+    Page<AdminProduct> readProducts(PageRequest pageRequest){
+        return adminProductRepository.findAll(pageRequest);
     }
 
     AdminProduct addProduct(AdminProduct adminProduct) {
         return adminProductRepository.save(adminProduct);
     }
 
-    AdminProductDto actualizeProduct(Long id, ProductDto productDto) {
+    AdminProductDto actualizeProduct(Long id, ProductDto productDto) throws ProductNotUpdateException {
 
         AdminProduct product = new AdminProduct(
                 id,
@@ -53,7 +53,7 @@ class AdminProductImpl {
         return Stream.of(productBuild)
                 .map(this::toAdminProductDto)
                 .findAny()
-                .orElseThrow();
+                .orElseThrow(() -> new ProductNotUpdateException(id));
     }
 
     void clearProduct(){
