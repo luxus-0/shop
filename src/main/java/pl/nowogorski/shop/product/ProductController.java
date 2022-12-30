@@ -9,7 +9,6 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 class ProductController {
 
     private final ProductDatabaseImpl productDatabaseImpl;
@@ -33,10 +32,10 @@ class ProductController {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
 
-    @PostMapping
-    ResponseEntity<ProductDto> createProduct(@RequestBody Product product) throws ProductNotFoundException {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(productDatabaseImpl.addProduct(product));
+    @PostMapping("/products")
+    @ResponseStatus(HttpStatus.CREATED)
+    ProductDto createProduct(@RequestBody Product product) throws ProductNotFoundException {
+        return productDatabaseImpl.addProduct(product);
     }
 
     @PutMapping("/{id}")
