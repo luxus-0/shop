@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset lnowogorski:1
-create table IF NOT EXISTS product (
+create table IF NOT EXISTS product(
     id int primary key not null,
     name varchar(255) not null,
     category varchar(255) not null,
