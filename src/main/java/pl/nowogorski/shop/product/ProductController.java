@@ -9,6 +9,7 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 class ProductController {
 
     private final ProductDatabaseImpl productDatabaseImpl;
@@ -27,8 +28,8 @@ class ProductController {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
     }
 
-    @GetMapping("/{page}/{size}")
-    ResponseEntity<Page<Product>> readProducts(@PathVariable int page,@PathVariable int size){
+    @GetMapping
+    ResponseEntity<Page<Product>> readProducts(@RequestParam int page, @RequestParam int size){
         return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
 

@@ -24,8 +24,7 @@ class ProductDatabaseImpl {
                 .map(this::toProductDto)
                 .collect(Collectors.toList());
     }
-
-    public ProductDto readProducts(Long id) throws ProductNotFoundException {
+    ProductDto readProducts(Long id) throws ProductNotFoundException {
         return productRepository.findById(id)
                 .map(this::toProductDto)
                 .orElseThrow(() -> new ProductNotFoundException(id));
@@ -43,7 +42,7 @@ class ProductDatabaseImpl {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
-    public ProductDto actualizeProduct(Long id, ProductDto productDto) {
+    ProductDto actualizeProduct(Long id, ProductDto productDto) {
 
                 Product product = new Product(
                         id,
