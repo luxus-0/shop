@@ -34,12 +34,8 @@ class AdminProductImpl {
         return adminProductRepository.findAll(PageRequest.of(page, size));
     }
 
-    AdminProductDto addProduct(AdminProduct adminProduct) throws AdminProductNotFoundException{
-        AdminProduct adminProductSaved = adminProductRepository.save(adminProduct);
-        return Stream.of(adminProductSaved)
-                .map(this::toAdminProductDto)
-                .findAny()
-                .orElseThrow(AdminProductNotFoundException::new);
+    AdminProduct addProduct(AdminProduct adminProduct) {
+        return adminProductRepository.save(adminProduct);
     }
 
     AdminProductDto actualizeProduct(Long id, ProductDto productDto) {
@@ -62,6 +58,10 @@ class AdminProductImpl {
 
     void clearProduct(){
         adminProductRepository.deleteAll();
+    }
+
+    public void clearProduct(Long id) {
+        adminProductRepository.deleteById(id);
     }
 
     AdminProductDto toAdminProductDto(AdminProduct adminProduct){

@@ -9,6 +9,8 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
 
+import static pl.nowogorski.shop.admin.AdminProductMapper.mapAdminProduct;
+
 @RestController
 class AdminProductController {
 
@@ -32,20 +34,26 @@ class AdminProductController {
         return ResponseEntity.ok(adminProductImpl.readProducts(id));
     }
 
-    @PostMapping("/products")
+    @PostMapping("/admin/products")
     @ResponseStatus(HttpStatus.CREATED)
-    AdminProductDto createProduct(@RequestBody AdminProduct product) throws AdminProductNotFoundException {
-        return adminProductImpl.addProduct(product);
+    AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
+        return adminProductImpl.addProduct(mapAdminProduct(adminProductDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/products/{id}")
     ResponseEntity<AdminProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
         return ResponseEntity.ok(adminProductImpl.actualizeProduct(id, productDto));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/admin/products")
     ResponseEntity<ProductDto> removeProduct() {
         adminProductImpl.clearProduct();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/admin/products/{id}")
+    ResponseEntity<ProductDto> removeProduct(@PathVariable Long id) {
+        adminProductImpl.clearProduct(id);
         return ResponseEntity.noContent().build();
     }
 }

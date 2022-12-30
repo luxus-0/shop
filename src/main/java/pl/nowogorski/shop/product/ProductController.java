@@ -49,4 +49,5 @@ class ProductController {
         productDatabaseImpl.clearProduct();
         return ResponseEntity.noContent().build();
     }
+
 }
