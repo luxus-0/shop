@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.configuration;
+package pl.nowogorski.shop.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
