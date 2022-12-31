@@ -1,5 +1,7 @@
 package pl.nowogorski.shop.product;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,8 @@ class ProductController {
         return ResponseEntity.ok(productDatabaseImpl.actualizeProduct(id, productDto));
     }
 
+    @Operation(summary = "Delete products", description = "Delete all product list")
+    @ApiResponse(description = "Response status no content",responseCode = "200")
     @DeleteMapping
     ResponseEntity<ProductDto> removeProduct() {
         productDatabaseImpl.clearProduct();
