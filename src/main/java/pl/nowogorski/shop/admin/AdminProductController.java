@@ -21,7 +21,6 @@ class AdminProductController {
         this.adminProductImpl = adminProductImpl;
     }
 
-
     @GetMapping("/admin/products")
     ResponseEntity<List<AdminProductDto>> readProducts() {
         return ResponseEntity.ok(adminProductImpl.readProducts());
