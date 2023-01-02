@@ -53,7 +53,8 @@ class ProductDatabaseImpl {
                 productDto.category(),
                 productDto.description(),
                 productDto.price(),
-                productDto.currency());
+                productDto.currency(),
+                productDto.image());
 
         Product productBuild = productRepository.save(product);
 
@@ -73,6 +74,7 @@ class ProductDatabaseImpl {
                 product.getCategory(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getCurrency());
+                product.getCurrency(),
+                product.getImage());
     }
 }
