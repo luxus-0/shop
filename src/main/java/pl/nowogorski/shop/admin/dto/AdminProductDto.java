@@ -2,13 +2,15 @@ package pl.nowogorski.shop.admin.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 import pl.nowogorski.shop.admin.ProductCurrency;
 
 import java.math.BigDecimal;
 
-public record AdminProductDto(@Length(min = 4) String name, @Length(min = 4) String category,
-                              @Length(min = 4) String description,
-                              @Length(min = 4) BigDecimal price,
-                              @Enumerated(value = EnumType.STRING) ProductCurrency currency) {
+public record AdminProductDto(@NotBlank @Length(min = 4) String name,
+                              @NotBlank @Length(min = 4) String category,
+                              @NotBlank @Length(min = 4) String description,
+                              @NotBlank @Length(min = 4) BigDecimal price,
+                              @NotBlank @Enumerated(value = EnumType.STRING) ProductCurrency currency) {
 }
