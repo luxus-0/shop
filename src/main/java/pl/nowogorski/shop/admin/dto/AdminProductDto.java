@@ -12,5 +12,6 @@ public record AdminProductDto(@NotBlank @Length(min = 4) String name,
                               @NotBlank @Length(min = 4) String category,
                               @NotBlank @Length(min = 4) String description,
                               @NotBlank @Length(min = 4) BigDecimal price,
-                              @NotBlank @Enumerated(value = EnumType.STRING) ProductCurrency currency) {
+                              @NotBlank @Enumerated(value = EnumType.STRING) ProductCurrency currency,
+                              String image) {
 }

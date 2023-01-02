@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Table(name = "product")
 class AdminProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,6 @@ class AdminProduct {
     private String description;
     private BigDecimal price;
     @Enumerated(value = EnumType.STRING)
-    private ProductCurrency productCurrency;
+    private ProductCurrency currency;
+    private String image;
 }

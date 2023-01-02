@@ -6,7 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.nowogorski.shop.admin.dto.AdminProductDto;
+import pl.nowogorski.shop.admin.dto.UploadImageResponseDto;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
@@ -17,9 +19,11 @@ import static pl.nowogorski.shop.admin.AdminProductMapper.mapAdminProduct;
 class AdminProductController {
 
     private final AdminProductImpl adminProductImpl;
+    private final ProductImageUploader productImageUploader;
 
-    AdminProductController(AdminProductImpl adminProductImpl) {
+    AdminProductController(AdminProductImpl adminProductImpl, ProductImageUploader productImageUploader) {
         this.adminProductImpl = adminProductImpl;
+        this.productImageUploader = productImageUploader;
     }
 
     @GetMapping("/admin/products")
@@ -58,5 +62,10 @@ class AdminProductController {
     ResponseEntity<ProductDto> removeProduct(@PathVariable Long id) {
         adminProductImpl.clearProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/admin/products/upload_image")
+    UploadImageResponseDto uploadImage(@RequestParam("file") MultipartFile multipartFile){
+        return productImageUploader.uploadImage(multipartFile);
     }
 }

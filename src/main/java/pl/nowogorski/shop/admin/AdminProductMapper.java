@@ -11,6 +11,7 @@ class AdminProductMapper {
                 adminProductDto.category(),
                 adminProductDto.description(),
                 adminProductDto.price(),
-                adminProductDto.currency());
+                adminProductDto.currency(),
+                adminProductDto.image());
     }
 }
