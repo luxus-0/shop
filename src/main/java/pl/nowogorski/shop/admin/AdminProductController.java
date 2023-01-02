@@ -1,6 +1,7 @@
 package pl.nowogorski.shop.admin;
 
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import pl.nowogorski.shop.admin.dto.AdminProductDto;
 import pl.nowogorski.shop.admin.dto.UploadImageResponseDto;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
+import java.io.IOException;
 import java.util.List;
 
 import static pl.nowogorski.shop.admin.AdminProductMapper.mapAdminProduct;
@@ -25,6 +27,7 @@ class AdminProductController {
         this.adminProductImpl = adminProductImpl;
         this.productImageUploader = productImageUploader;
     }
+
 
     @GetMapping("/admin/products")
     ResponseEntity<List<AdminProductDto>> readProducts() {
@@ -65,7 +68,12 @@ class AdminProductController {
     }
 
     @PostMapping("/admin/products/upload_image")
-    UploadImageResponseDto uploadImage(@RequestParam("file") MultipartFile multipartFile){
-        return productImageUploader.uploadImage(multipartFile);
+    ResponseEntity<UploadImageResponseDto> uploadImage(@RequestParam("file") MultipartFile multipartFile){
+        return ResponseEntity.ok(productImageUploader.uploadImage(multipartFile));
+    }
+
+    @GetMapping("/admin/products/{fileName}")
+    ResponseEntity<Resource> serveImages(@PathVariable String fileName) throws IOException {
+        return productImageUploader.serveFiles(fileName);
     }
 }
