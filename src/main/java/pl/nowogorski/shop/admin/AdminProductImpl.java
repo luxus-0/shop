@@ -46,7 +46,8 @@ class AdminProductImpl {
                 productDto.category(),
                 productDto.description(),
                 productDto.price(),
-                productDto.currency());
+                productDto.currency(),
+                productDto.image());
 
         AdminProduct productBuild = adminProductRepository.save(product);
 
@@ -70,6 +71,7 @@ class AdminProductImpl {
                 adminProduct.getCategory(),
                 adminProduct.getDescription(),
                 adminProduct.getPrice(),
-                adminProduct.getProductCurrency());
+                adminProduct.getCurrency(),
+                adminProduct.getImage());
     }
 }
