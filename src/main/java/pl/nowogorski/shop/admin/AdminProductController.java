@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import pl.nowogorski.shop.admin.dto.UploadImageResponseDto;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static pl.nowogorski.shop.admin.AdminProductMapper.mapAdminProduct;
@@ -39,7 +42,7 @@ class AdminProductController {
         return ResponseEntity.ok(adminProductImpl.readProducts(id));
     }
 
-    @GetMapping("/admin/products")
+    @GetMapping("/admin/products/page")
     ResponseEntity<Page<AdminProduct>> readProducts(@RequestBody @Valid PageRequest pageRequest) {
         return ResponseEntity.ok(adminProductImpl.readProducts(pageRequest));
     }
@@ -74,6 +77,9 @@ class AdminProductController {
 
     @GetMapping("/admin/products/{fileName}")
     ResponseEntity<Resource> serveImages(@PathVariable String fileName) throws IOException {
-        return productImageUploader.serveFiles(fileName);
+        Resource file = productImageUploader.serveFiles(fileName);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(fileName)))
+                .body(file);
     }
 }
