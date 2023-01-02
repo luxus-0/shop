@@ -1,5 +1,6 @@
 package pl.nowogorski.shop.admin;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -31,18 +32,19 @@ class AdminProductController {
         return ResponseEntity.ok(adminProductImpl.readProducts(id));
     }
 
-    ResponseEntity<Page<AdminProduct>> readProducts(@RequestBody PageRequest pageRequest) {
+    @GetMapping("/admin/products")
+    ResponseEntity<Page<AdminProduct>> readProducts(@RequestBody @Valid PageRequest pageRequest) {
         return ResponseEntity.ok(adminProductImpl.readProducts(pageRequest));
     }
 
     @PostMapping("/admin/products")
     @ResponseStatus(HttpStatus.CREATED)
-    AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
+    AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return adminProductImpl.addProduct(mapAdminProduct(adminProductDto));
     }
 
     @PutMapping("/admin/products/{id}")
-    ResponseEntity<AdminProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws ProductNotUpdateException {
+    ResponseEntity<AdminProductDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDto productDto) throws AdminProductNotUpdateException {
         return ResponseEntity.ok(adminProductImpl.actualizeProduct(id, productDto));
     }
 

@@ -38,7 +38,7 @@ class AdminProductImpl {
         return adminProductRepository.save(adminProduct);
     }
 
-    AdminProductDto actualizeProduct(Long id, ProductDto productDto) throws ProductNotUpdateException {
+    AdminProductDto actualizeProduct(Long id, ProductDto productDto) throws AdminProductNotUpdateException {
 
         AdminProduct product = new AdminProduct(
                 id,
@@ -53,7 +53,7 @@ class AdminProductImpl {
         return Stream.of(productBuild)
                 .map(this::toAdminProductDto)
                 .findAny()
-                .orElseThrow(() -> new ProductNotUpdateException(id));
+                .orElseThrow(() -> new AdminProductNotUpdateException(id));
     }
 
     void clearProduct(){
@@ -70,6 +70,6 @@ class AdminProductImpl {
                 adminProduct.getCategory(),
                 adminProduct.getDescription(),
                 adminProduct.getPrice(),
-                adminProduct.getCurrency());
+                adminProduct.getProductCurrency());
     }
 }

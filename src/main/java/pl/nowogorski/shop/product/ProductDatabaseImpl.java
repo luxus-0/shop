@@ -44,17 +44,20 @@ class ProductDatabaseImpl {
 
     ProductDto actualizeProduct(Long id, ProductDto productDto) {
 
-                Product product = new Product(
-                        id,
-                        productDto.name(),
-                        productDto.category(),
-                        productDto.description(),
-                        productDto.price(),
-                        productDto.currency());
+        if (id == null) {
+            throw new IllegalArgumentException();
+        }
+        Product product = new Product(
+                id,
+                productDto.name(),
+                productDto.category(),
+                productDto.description(),
+                productDto.price(),
+                productDto.currency());
 
-                Product productBuild = productRepository.save(product);
+        Product productBuild = productRepository.save(product);
 
-                return Stream.of(productBuild)
+        return Stream.of(productBuild)
                         .map(this::toProductDto)
                         .findAny()
                         .orElseThrow();

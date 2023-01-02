@@ -1,12 +1,10 @@
 package pl.nowogorski.shop.product;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.nowogorski.shop.admin.ProductCurrency;
 
 import java.math.BigDecimal;
 
@@ -22,6 +20,7 @@ class Product {
     private String category;
     private String description;
     private BigDecimal price;
-    private String currency;
+    @Enumerated(value = EnumType.STRING)
+    private ProductCurrency currency;
 }
 
