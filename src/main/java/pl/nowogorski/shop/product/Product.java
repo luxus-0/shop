@@ -22,5 +22,6 @@ class Product {
     private BigDecimal price;
     @Enumerated(value = EnumType.STRING)
     private ProductCurrency currency;
+    private String image;
 }
 
