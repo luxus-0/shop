@@ -26,7 +26,6 @@ class ExistingFileRenameUtilsTest {
         //given
         ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
         //when
-        Files.createFile(pathFile.resolve("file.png"));
         String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file.png");
         //then
         assertEquals("file.png", changedNameFile);

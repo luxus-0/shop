@@ -10,13 +10,13 @@ class ExistingFileRenameUtils {
         if(Files.exists(uploadDir.resolve(fileName))){
             return renameAndCheckFileName(uploadDir, fileName);
         }
-        return null;
+        return fileName;
     }
 
     private String renameAndCheckFileName(Path uploadDir, String fileName) {
         String newName = renameFileName(fileName);
         if(Files.exists(uploadDir.resolve(newName))){
-            newName = renameAndCheckFileName(uploadDir, fileName);
+            newName = renameAndCheckFileName(uploadDir, newName);
         }
         return newName;
     }
