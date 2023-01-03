@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UploadedFileNameUtilsTest {
 
-
-
     @ParameterizedTest
     @CsvSource({
             "product test.png, product-test.png",
