@@ -1,5 +1,7 @@
 package pl.nowogorski.shop.category;
 
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,12 @@ class CategoryController {
         return categoryDatabaseImpl.findCategory(id);
     }
 
+    @GetMapping("/{slug}/products")
+    Category getCategoriesWithProducts(@PathVariable
+                                       @Pattern(regexp = "[a-zA-Z0-9\\-]+")
+                                       @Length(max = 255) String slug){
+        return categoryDatabaseImpl.findCategoriesWithProducts(slug);
+    }
     @PostMapping
     Category addCategory(@RequestBody CategoryDto categoryDto){
         return categoryDatabaseImpl.createCategory(categoryDto);
