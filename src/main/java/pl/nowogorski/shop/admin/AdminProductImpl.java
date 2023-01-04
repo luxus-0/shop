@@ -43,7 +43,7 @@ class AdminProductImpl {
         AdminProduct product = new AdminProduct(
                 id,
                 productDto.name(),
-                productDto.category(),
+                productDto.categoryId(),
                 productDto.description(),
                 productDto.fullDescription(),
                 productDto.price(),

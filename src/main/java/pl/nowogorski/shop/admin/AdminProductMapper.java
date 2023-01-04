@@ -11,7 +11,7 @@ class AdminProductMapper {
     static AdminProduct mapAdminProduct(AdminProductDto adminProductDto) {
         return new AdminProduct(EMPTY_ID,
                 adminProductDto.name(),
-                adminProductDto.category(),
+                adminProductDto.categoryId(),
                 adminProductDto.description(),
                 adminProductDto.fullDescription(),
                 adminProductDto.price(),
@@ -23,7 +23,7 @@ class AdminProductMapper {
     static AdminProductDto mapAdminProductDto(AdminProduct adminProduct) {
         return new AdminProductDto(
                 adminProduct.getName(),
-                adminProduct.getCategory(),
+                adminProduct.getCategoryId(),
                 adminProduct.getDescription(),
                 adminProduct.getFullDescription(),
                 adminProduct.getPrice(),

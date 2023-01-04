@@ -35,7 +35,7 @@ class ProductDatabaseImpl {
     ProductDto toProductDto(Product product){
         return new ProductDto(
                 product.getName(),
-                product.getCategory(),
+                product.getCategoryId(),
                 product.getDescription(),
                 product.getFullDescription(),
                 product.getPrice(),

@@ -14,12 +14,12 @@ class CategoryController {
     }
 
 
-    @GetMapping
+    @GetMapping("/categories")
     List<Category> readCategories(){
         return categoryDatabaseImpl.findCategories();
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("categories/{id}")
     Category readCategory(@PathVariable Long id){
         return categoryDatabaseImpl.findCategory(id);
     }
@@ -29,12 +29,12 @@ class CategoryController {
         return categoryDatabaseImpl.createCategory(categoryDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("categories/{id}")
     Category updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long id){
         return categoryDatabaseImpl.actualizeCategory(categoryDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("categories/{id}")
     void deleteCategory(@PathVariable Long id){
         categoryDatabaseImpl.removeCategory(id);
     }
