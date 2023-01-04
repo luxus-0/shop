@@ -21,12 +21,12 @@ class AdminProductImpl {
     List<AdminProductDto> readProducts() {
         return adminProductRepository.findAll()
                 .stream()
-                .map(this::toAdminProductDto)
+                .map(AdminProductMapper::mapAdminProductDto)
                 .collect(Collectors.toList());
     }
     AdminProductDto readProducts(Long id) throws AdminProductNotFoundException {
         return adminProductRepository.findById(id)
-                .map(this::toAdminProductDto)
+                .map(AdminProductMapper::mapAdminProductDto)
                 .orElseThrow(() -> new AdminProductNotFoundException(id));
     }
 
@@ -38,7 +38,7 @@ class AdminProductImpl {
         return adminProductRepository.save(adminProduct);
     }
 
-    AdminProductDto actualizeProduct(Long id, ProductDto productDto) throws AdminProductNotUpdateException {
+    AdminProductDto actualizeProduct(Long id, ProductDto productDto) {
 
         AdminProduct product = new AdminProduct(
                 id,
@@ -47,14 +47,15 @@ class AdminProductImpl {
                 productDto.description(),
                 productDto.price(),
                 productDto.currency(),
-                productDto.image());
+                productDto.image(),
+                productDto.slug());
 
         AdminProduct productBuild = adminProductRepository.save(product);
 
         return Stream.of(productBuild)
-                .map(this::toAdminProductDto)
+                .map(AdminProductMapper::mapAdminProductDto)
                 .findAny()
-                .orElseThrow(() -> new AdminProductNotUpdateException(id));
+                .get();
     }
 
     void clearProduct(){
@@ -63,15 +64,5 @@ class AdminProductImpl {
 
     public void clearProduct(Long id) {
         adminProductRepository.deleteById(id);
-    }
-
-    AdminProductDto toAdminProductDto(AdminProduct adminProduct){
-        return new AdminProductDto(
-                adminProduct.getName(),
-                adminProduct.getCategory(),
-                adminProduct.getDescription(),
-                adminProduct.getPrice(),
-                adminProduct.getCurrency(),
-                adminProduct.getImage());
     }
 }

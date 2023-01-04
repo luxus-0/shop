@@ -1,5 +1,5 @@
 package pl.nowogorski.shop.admin;
 
-public enum ProductCurrency {
+public enum AdminProductCurrency {
     PLN, EU, USD
 }

@@ -16,12 +16,12 @@ class AdminProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String category;
     private String description;
     private BigDecimal price;
     @Enumerated(value = EnumType.STRING)
-    private ProductCurrency currency;
+    private AdminProductCurrency currency;
     private String image;
+    private String slug;
 }
