@@ -15,15 +15,15 @@ class CategoryDatabaseImpl {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> findCategories() {
+    List<Category> findCategories() {
         return categoryRepository.findAll();
     }
 
-    public Category findCategory(Long id) {
+    Category findCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow();
     }
 
-    public Category createCategory(CategoryDto categoryDto) {
+    Category createCategory(CategoryDto categoryDto) {
         return categoryRepository.save(mapToCategory(categoryDto));
     }
 
@@ -43,11 +43,15 @@ class CategoryDatabaseImpl {
         return slugify.slugify(slug);
     }
 
-    public Category actualizeCategory(CategoryDto category, Long id) {
+    Category actualizeCategory(CategoryDto category, Long id) {
         return categoryRepository.save(mapToCategory(category));
     }
 
-    public void removeCategory(Long id) {
+    void removeCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public Category findCategoriesWithProducts(String slug) {
+        return categoryRepository.findBySlug(slug);
     }
 }
