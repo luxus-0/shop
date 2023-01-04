@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.nowogorski.shop.product.Product;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,4 +22,7 @@ public class Category {
     private String name;
     private String description;
     private String slug;
+    @OneToMany
+    @JoinColumn(name = "categoryId")
+    private List<Product> products;
 }
