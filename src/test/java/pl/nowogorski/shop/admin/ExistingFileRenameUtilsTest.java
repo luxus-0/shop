@@ -2,6 +2,7 @@ package pl.nowogorski.shop.admin;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import pl.nowogorski.shop.utils.ExistingFileRenameUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,5 +46,15 @@ class ExistingFileRenameUtilsTest {
         String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file.png");
         //then
         assertEquals("file-5.png", changedNameFile);
+    }
+
+    @Test
+    void shouldRenameExistingFileWithSpecialChar(@TempDir Path pathFile) {
+        //given
+        ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
+        //when
+        String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file-1.png");
+        //then
+        assertEquals("file-1.png", changedNameFile);
     }
 }
