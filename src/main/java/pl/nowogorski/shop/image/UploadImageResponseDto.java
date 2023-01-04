@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.admin.dto;
+package pl.nowogorski.shop.image;
 
 public record UploadImageResponseDto(String fileName) {
 }
