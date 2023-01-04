@@ -1,15 +1,17 @@
 package pl.nowogorski.shop.product;
 
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
 
 @RestController
+@Validated
 @CrossOrigin("*")
 class ProductController {
 
@@ -34,20 +36,11 @@ class ProductController {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(page, size));
     }
 
-    @PostMapping("/products")
-    @ResponseStatus(HttpStatus.CREATED)
-    ProductDto createProduct(@RequestBody @Valid Product product) throws ProductNotFoundException {
-        return productDatabaseImpl.addProduct(product);
-    }
-
-    @PutMapping("products/{id}")
-    ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDto productDto) {
-        return ResponseEntity.ok(productDatabaseImpl.actualizeProduct(id, productDto));
-    }
-
-    @DeleteMapping
-    ResponseEntity<ProductDto> removeProduct() {
-        productDatabaseImpl.clearProduct();
-        return ResponseEntity.noContent().build();
+    @GetMapping("products/{slug}")
+    Product readProductBySlug(@PathVariable
+                              @Pattern(regexp = "[a-z0-9\\-]+")
+                              @Length(max = 255)
+                              String slug){
+        return productDatabaseImpl.readProductBySlug(slug);
     }
 }

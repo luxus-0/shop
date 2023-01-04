@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.nowogorski.shop.admin.ProductCurrency;
+import pl.nowogorski.shop.admin.AdminProductCurrency;
 
 import java.math.BigDecimal;
 
@@ -21,7 +21,8 @@ class Product {
     private String description;
     private BigDecimal price;
     @Enumerated(value = EnumType.STRING)
-    private ProductCurrency currency;
+    private AdminProductCurrency currency;
     private String image;
+    private String slug;
 }
 

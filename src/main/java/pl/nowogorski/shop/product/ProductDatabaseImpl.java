@@ -7,7 +7,6 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 class ProductDatabaseImpl {
@@ -33,41 +32,6 @@ class ProductDatabaseImpl {
     Page<Product> readProducts(int page, int size){
         return productRepository.findAll(PageRequest.of(page, size));
     }
-
-    ProductDto addProduct(Product product) throws ProductNotFoundException {
-        Product productSaved = productRepository.save(product);
-        return Stream.of(productSaved)
-                .map(this::toProductDto)
-                .findAny()
-                .orElseThrow(ProductNotFoundException::new);
-    }
-
-    ProductDto actualizeProduct(Long id, ProductDto productDto) {
-
-        if (id == null) {
-            throw new IllegalArgumentException();
-        }
-        Product product = new Product(
-                id,
-                productDto.name(),
-                productDto.category(),
-                productDto.description(),
-                productDto.price(),
-                productDto.currency(),
-                productDto.image());
-
-        Product productBuild = productRepository.save(product);
-
-        return Stream.of(productBuild)
-                        .map(this::toProductDto)
-                        .findAny()
-                        .orElseThrow();
-    }
-
-    void clearProduct(){
-        productRepository.deleteAll();
-    }
-
     ProductDto toProductDto(Product product){
         return new ProductDto(
                 product.getName(),
@@ -75,6 +39,11 @@ class ProductDatabaseImpl {
                 product.getDescription(),
                 product.getPrice(),
                 product.getCurrency(),
-                product.getImage());
+                product.getImage(),
+                product.getSlug());
+    }
+
+    public Product readProductBySlug(String slug) {
+        return productRepository.findBySlug(slug).orElseThrow();
     }
 }
