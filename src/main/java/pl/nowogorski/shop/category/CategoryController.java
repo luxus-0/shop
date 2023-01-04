@@ -30,8 +30,8 @@ class CategoryController {
     }
 
     @PutMapping("/{id}")
-    Category updateCategory(@RequestBody CategoryDto categoryDto){
-        return categoryDatabaseImpl.actualizeCategory(categoryDto);
+    Category updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long id){
+        return categoryDatabaseImpl.actualizeCategory(categoryDto, id);
     }
 
     @DeleteMapping("/{id}")

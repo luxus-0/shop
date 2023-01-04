@@ -43,7 +43,7 @@ class CategoryDatabaseImpl {
         return slugify.slugify(slug);
     }
 
-    public Category actualizeCategory(CategoryDto category) {
+    public Category actualizeCategory(CategoryDto category, Long id) {
         return categoryRepository.save(mapToCategory(category));
     }
 
