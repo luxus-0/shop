@@ -45,6 +45,7 @@ class AdminProductImpl {
                 productDto.name(),
                 productDto.category(),
                 productDto.description(),
+                productDto.fullDescription(),
                 productDto.price(),
                 productDto.currency(),
                 productDto.image(),
