@@ -1,12 +1,12 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.utils;
 
 import com.github.slugify.Slugify;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-class UploadedFileNameUtils {
-    String generateSlugFromString(String fileName){
+public class UploadedFileNameUtils {
+    public String generateSlugFromString(String fileName){
         String name = FilenameUtils.getBaseName(fileName);
         final Slugify slg = Slugify.builder()
                 .customReplacement("_","-")

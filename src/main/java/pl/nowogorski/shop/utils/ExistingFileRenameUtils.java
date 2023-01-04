@@ -1,12 +1,13 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.utils;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-class ExistingFileRenameUtils {
-    String renameIfExists(Path uploadDir, String fileName){
+@Service
+public class ExistingFileRenameUtils {
+    public String renameIfExists(Path uploadDir, String fileName){
         if(Files.exists(uploadDir.resolve(fileName))){
             return renameAndCheckFileName(uploadDir, fileName);
         }
