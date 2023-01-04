@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 public record ProductDto(@NotBlank @Length(min = 4) String name,
                          @NotBlank @Length(min = 4) String category,
                          @NotBlank @Length(min = 4) String description,
+                         String fullDescription,
                          @NotBlank @Length(min = 4) BigDecimal price,
                          @NotBlank @Enumerated(value = EnumType.STRING) AdminProductCurrency currency,
                          String image,

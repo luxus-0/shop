@@ -37,6 +37,7 @@ class ProductDatabaseImpl {
                 product.getName(),
                 product.getCategory(),
                 product.getDescription(),
+                product.getFullDescription(),
                 product.getPrice(),
                 product.getCurrency(),
                 product.getImage(),
