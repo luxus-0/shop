@@ -2,6 +2,8 @@ package pl.nowogorski.shop.review;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 class ReviewDatabaseImpl {
 
@@ -13,5 +15,9 @@ class ReviewDatabaseImpl {
 
     Review addReview(Review review){
         return reviewRepository.save(review);
+    }
+
+    List<Review> readAllByProductIdAndModerated(Long productId, boolean moderated){
+        return reviewRepository.findAllByProductIdAndModerated(productId, moderated);
     }
 }

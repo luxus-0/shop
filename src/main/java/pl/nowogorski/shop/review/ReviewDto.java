@@ -1,6 +1,7 @@
 package pl.nowogorski.shop.review;
 
-import org.hibernate.validator.constraints.Length;
+import lombok.Builder;
 
-public record ReviewDto(@Length(min = 2, max = 60) String authorName, @Length(min = 2, max = 600) String content, Long productId) {
+@Builder
+public record ReviewDto(Long id, Long productId, String authorName, String content, boolean moderate) {
 }
