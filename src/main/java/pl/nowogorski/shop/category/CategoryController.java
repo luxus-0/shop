@@ -2,6 +2,7 @@ package pl.nowogorski.shop.category;
 
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,10 +28,10 @@ class CategoryController {
     }
 
     @GetMapping("/{slug}/products")
-    Category getCategoriesWithProducts(@PathVariable
+    CategoryProductDto getCategoriesWithProducts(@PathVariable
                                        @Pattern(regexp = "[a-zA-Z0-9\\-]+")
-                                       @Length(max = 255) String slug){
-        return categoryDatabaseImpl.findCategoriesWithProducts(slug);
+                                       @Length(max = 255) String slug, Pageable pageable){
+        return categoryDatabaseImpl.findCategoriesWithProducts(slug, pageable);
     }
     @PostMapping
     Category addCategory(@RequestBody CategoryDto categoryDto){

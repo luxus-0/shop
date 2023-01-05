@@ -1,7 +1,12 @@
 package pl.nowogorski.shop.category;
 
 import com.github.slugify.Slugify;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.nowogorski.shop.product.Product;
+import pl.nowogorski.shop.product.ProductRepository;
 
 import java.util.List;
 
@@ -9,10 +14,12 @@ import java.util.List;
 class CategoryDatabaseImpl {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     public static final Long EMPTY_ID = null;
 
-    CategoryDatabaseImpl(CategoryRepository categoryRepository) {
+    CategoryDatabaseImpl(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     List<Category> findCategories() {
@@ -51,7 +58,10 @@ class CategoryDatabaseImpl {
         categoryRepository.deleteById(id);
     }
 
-    public Category findCategoriesWithProducts(String slug) {
-        return categoryRepository.findBySlug(slug);
+    @Transactional(readOnly = true)
+    public CategoryProductDto findCategoriesWithProducts(String slug, Pageable pageable) {
+        Category category = categoryRepository.findBySlug(slug);
+        Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable);
+        return new CategoryProductDto(category, page);
     }
 }
