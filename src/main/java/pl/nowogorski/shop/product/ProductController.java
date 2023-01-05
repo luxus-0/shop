@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.nowogorski.shop.product.dto.ProductDto;
 import pl.nowogorski.shop.product.dto.ProductListDto;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Validated
@@ -25,12 +25,12 @@ class ProductController {
     }
 
     @GetMapping("/products")
-    ResponseEntity<List<ProductDto>> readProducts() {
+    ResponseEntity<List<Product>> readProducts() {
         return ResponseEntity.ok(productDatabaseImpl.readProducts());
     }
 
     @GetMapping("/products/{id}")
-    ResponseEntity<ProductDto> readProducts(@PathVariable Long id) throws ProductNotFoundException {
+    ResponseEntity<Optional<Product>> readProducts(@PathVariable Long id) throws ProductNotFoundException {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
     }
 

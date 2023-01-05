@@ -47,7 +47,7 @@ class ProductDatabaseImpl {
                         .productId(review.getId())
                         .authorName(review.getAuthorName())
                         .content(review.getContent())
-                        .moderate(review.isModerate())
+                        .moderate(review.isModerated())
                         .build())
                         .toList()
                 ).build();
