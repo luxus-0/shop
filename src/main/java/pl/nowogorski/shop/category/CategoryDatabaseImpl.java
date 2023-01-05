@@ -1,6 +1,5 @@
 package pl.nowogorski.shop.category;
 
-import com.github.slugify.Slugify;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +10,8 @@ import pl.nowogorski.shop.product.ProductRepository;
 import pl.nowogorski.shop.product.dto.ProductListDto;
 
 import java.util.List;
+
+import static pl.nowogorski.shop.utils.SlugifyUtils.slugifySlug;
 
 @Service
 class CategoryDatabaseImpl {
@@ -38,18 +39,11 @@ class CategoryDatabaseImpl {
 
     private Category mapToCategory(CategoryDto categoryDto) {
         return Category.builder()
-                .id(CategoryDatabaseImpl.EMPTY_ID)
+                .id(EMPTY_ID)
                 .name(categoryDto.name())
                 .description(categoryDto.description())
-                .slug(slugifyCategoryName(categoryDto.slug()))
+                .slug(slugifySlug(categoryDto.slug()))
                 .build();
-    }
-
-    private String slugifyCategoryName(String slug) {
-        Slugify slugify = Slugify.builder()
-                .customReplacement("_", "-")
-                .build();
-        return slugify.slugify(slug);
     }
 
     Category actualizeCategory(CategoryDto category, Long id) {
