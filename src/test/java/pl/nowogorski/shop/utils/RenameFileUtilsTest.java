@@ -1,8 +1,7 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.utils;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import pl.nowogorski.shop.utils.ExistingFileRenameUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,11 +9,11 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ExistingFileRenameUtilsTest {
+class RenameFileUtilsTest {
     @Test
     void shouldRenameExistingFile(@TempDir Path pathFile) throws IOException {
         //given
-        ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
+        RenameFileUtils existingFileRenameUtils = new RenameFileUtils();
         //when
         Files.createFile(pathFile.resolve("file.png"));
         String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file.png");
@@ -25,7 +24,7 @@ class ExistingFileRenameUtilsTest {
     @Test
     void shouldNotRenameExistingFile(@TempDir Path pathFile) throws IOException {
         //given
-        ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
+        RenameFileUtils existingFileRenameUtils = new RenameFileUtils();
         //when
         String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file.png");
         //then
@@ -35,7 +34,7 @@ class ExistingFileRenameUtilsTest {
     @Test
     void shouldRenameManyExistingFile(@TempDir Path pathFile) throws IOException {
         //given
-        ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
+        RenameFileUtils existingFileRenameUtils = new RenameFileUtils();
         //when
         Files.createFile(pathFile.resolve("file.png"));
         Files.createFile(pathFile.resolve("file-1.png"));
@@ -51,7 +50,7 @@ class ExistingFileRenameUtilsTest {
     @Test
     void shouldRenameExistingFileWithSpecialChar(@TempDir Path pathFile) {
         //given
-        ExistingFileRenameUtils existingFileRenameUtils = new ExistingFileRenameUtils();
+        RenameFileUtils existingFileRenameUtils = new RenameFileUtils();
         //when
         String changedNameFile = existingFileRenameUtils.renameIfExists(pathFile, "file-1.png");
         //then
