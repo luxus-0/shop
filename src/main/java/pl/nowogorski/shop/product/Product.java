@@ -2,9 +2,9 @@ package pl.nowogorski.shop.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.nowogorski.shop.admin.AdminProductCurrency;
 import pl.nowogorski.shop.review.Review;
 
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,5 @@ public class Product {
     private String currency;
     private String image;
     private String slug;
-    @OneToMany
-    @JoinColumn(name = "productId")
-    private List<Review> reviews;
 }
 

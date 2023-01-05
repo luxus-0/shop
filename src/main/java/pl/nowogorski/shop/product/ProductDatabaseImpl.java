@@ -1,13 +1,15 @@
 package pl.nowogorski.shop.product;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.product.dto.ProductDto;
+import pl.nowogorski.shop.review.Review;
+import pl.nowogorski.shop.review.ReviewDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 class ProductDatabaseImpl {
@@ -18,31 +20,37 @@ class ProductDatabaseImpl {
         this.productRepository = productRepository;
     }
 
-    List<ProductDto> readProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(this::toProductDto)
-                .collect(Collectors.toList());
+    List<Product> readProducts() {
+        return productRepository.findAll();
     }
-    ProductDto readProducts(Long id) throws ProductNotFoundException {
-        return productRepository.findById(id)
-                .map(this::toProductDto)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+    Optional<Product> readProducts(Long id) {
+        return productRepository.findById(id);
     }
 
     Page<Product> readProducts(Pageable pageable){
         return productRepository.findAll(pageable);
     }
-    ProductDto toProductDto(Product product){
-        return new ProductDto(
-                product.getName(),
-                product.getCategoryId(),
-                product.getDescription(),
-                product.getFullDescription(),
-                product.getPrice(),
-                product.getCurrency(),
-                product.getImage(),
-                product.getSlug());
+    @Transactional(readOnly = true)
+    ProductDto mapToProductDto(Product product, List<Review> reviews){
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .categoryId(product.getCategoryId())
+                .description(product.getDescription())
+                .fullDescription(product.getFullDescription())
+                .price(product.getPrice())
+                .currency(product.getCurrency())
+                .image(product.getImage())
+                .slug(product.getSlug())
+                .reviews(reviews.stream().map(review -> ReviewDto.builder()
+                        .id(review.getId())
+                        .productId(review.getId())
+                        .authorName(review.getAuthorName())
+                        .content(review.getContent())
+                        .moderate(review.isModerate())
+                        .build())
+                        .toList()
+                ).build();
     }
 
     public Product readProductBySlug(String slug) {
