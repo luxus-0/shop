@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.nowogorski.shop.admin.AdminProductCurrency;
+import pl.nowogorski.shop.review.Review;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,5 +27,8 @@ public class Product {
     private AdminProductCurrency currency;
     private String image;
     private String slug;
+    @OneToMany
+    @JoinColumn(name = "productId")
+    private List<Review> reviews;
 }
 
