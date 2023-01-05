@@ -1,4 +1,4 @@
-package pl.nowogorski.Shop_backend;
+package pl.nowogorski.shop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
