@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.admin.review;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
