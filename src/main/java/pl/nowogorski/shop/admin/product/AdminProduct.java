@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.admin.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

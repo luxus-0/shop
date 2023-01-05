@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.admin.product;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
 
-import static pl.nowogorski.shop.admin.AdminProductMapper.mapAdminProduct;
+import static pl.nowogorski.shop.admin.product.AdminProductMapper.mapAdminProduct;
 
 @RestController
 class AdminProductController {

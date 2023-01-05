@@ -1,11 +1,8 @@
 package pl.nowogorski.shop.admin.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-import pl.nowogorski.shop.admin.AdminProductCurrency;
 
 import java.math.BigDecimal;
 

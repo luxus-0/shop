@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.admin;
+package pl.nowogorski.shop.admin.product;
 
 import com.github.slugify.Slugify;
 import org.springframework.stereotype.Service;
