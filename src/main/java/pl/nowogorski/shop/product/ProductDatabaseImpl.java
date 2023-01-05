@@ -2,6 +2,7 @@ package pl.nowogorski.shop.product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
@@ -29,8 +30,8 @@ class ProductDatabaseImpl {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    Page<Product> readProducts(int page, int size){
-        return productRepository.findAll(PageRequest.of(page, size));
+    Page<Product> readProducts(Pageable pageable){
+        return productRepository.findAll(pageable);
     }
     ProductDto toProductDto(Product product){
         return new ProductDto(

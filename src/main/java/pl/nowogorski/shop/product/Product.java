@@ -23,8 +23,7 @@ public class Product {
     private String description;
     private String fullDescription;
     private BigDecimal price;
-    @Enumerated(value = EnumType.STRING)
-    private AdminProductCurrency currency;
+    private String currency;
     private String image;
     private String slug;
     @OneToMany

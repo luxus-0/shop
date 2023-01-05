@@ -14,7 +14,7 @@ public record AdminProductDto(@NotBlank @Length(min = 4) String name,
                               @NotBlank @Length(min = 4) String description,
                               String fullDescription,
                               @NotBlank @Length(min = 4) BigDecimal price,
-                              @NotBlank @Enumerated(value = EnumType.STRING) AdminProductCurrency currency,
+                              @NotNull String currency,
                               String image,
                               @NotBlank @Length(min = 4)
                               String slug) {
