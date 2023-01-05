@@ -5,7 +5,7 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pl.nowogorski.shop.admin.AdminProductFileException;
+import pl.nowogorski.shop.admin.product.AdminProductFileException;
 import pl.nowogorski.shop.utils.RenameFileUtils;
 import pl.nowogorski.shop.utils.SlugifyUtils;
 
