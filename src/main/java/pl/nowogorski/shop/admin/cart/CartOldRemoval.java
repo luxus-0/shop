@@ -31,11 +31,17 @@ class CartOldRemoval {
     @Scheduled(cron = "${cron.remove.old.carts}")
     void removeOldCarts(){
         List<Cart> carts = cartRepository.findByCreatedLessThan(now().minusDays(3));
-        log.info("Old carts:" + carts.size());
-        carts.forEach(cart -> {
+        List<Long> cartId = carts.stream()
+                .map(Cart::getId)
+                .toList();
+        if(!cartId.isEmpty()){
+            cartItemRepository.deleteAllByCardIdIn(cartId);
+            cartRepository.deleteAllByIdIn(cartId);
+        }
+        /*carts.forEach(cart -> {
             cartItemRepository.deleteByCartId(cart.getId());
             cartRepository.deleteCardById(cart.getId());
-        });
+        });*/
 
     }
 }
