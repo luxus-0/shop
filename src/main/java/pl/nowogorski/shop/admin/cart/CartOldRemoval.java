@@ -42,6 +42,5 @@ class CartOldRemoval {
             cartItemRepository.deleteByCartId(cart.getId());
             cartRepository.deleteCardById(cart.getId());
         });*/
-
     }
 }
