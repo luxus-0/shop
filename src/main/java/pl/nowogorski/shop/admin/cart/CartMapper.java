@@ -8,11 +8,11 @@ import java.util.List;
 
 @Service
 class CartMapper {
-    public static CartSummaryDto mapToCartSummation(Cart cart){
+    public static CartSummaryDto mapToCartSummary(Cart cart){
         return CartSummaryDto.builder()
                 .id(cart.getId())
                 .items(mapCartItems(cart.getItems()))
-                .sum(mapToSummation(cart.getItems()))
+                .summary(mapToSummary(cart.getItems()))
                 .build();
     }
 
@@ -46,7 +46,7 @@ class CartMapper {
         return cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
     }
 
-    private static SummaryDTO mapToSummation(List<CartItem> items) {
+    private static SummaryDTO mapToSummary(List<CartItem> items) {
         return SummaryDTO.builder()
                 .grossValue(sumGrossValue(items))
                 .build();
