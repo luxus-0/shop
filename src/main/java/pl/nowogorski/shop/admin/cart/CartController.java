@@ -1,7 +1,12 @@
 package pl.nowogorski.shop.admin.cart;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,17 +22,17 @@ class CartController {
     }
 
     @GetMapping("/{id}")
-    CartSummationDto readCart(@PathVariable Long id){
+    CartSummaryDto readCart(@PathVariable Long id){
         return CartMapper.mapToCartSummation(cartRepositoryImpl.readCart(id));
     }
 
     @PutMapping("/{id}")
-    CartSummationDto addProductToCart(@PathVariable Long id,@RequestBody CartProductDto cartProductDto){
+    CartSummaryDto addProductToCart(@PathVariable Long id, @RequestBody CartProductDto cartProductDto) {
         return CartMapper.mapToCartSummation(cartRepositoryImpl.addProductToCart(id, cartProductDto));
     }
 
     @PutMapping("/{id}/update")
-    CartSummationDto updateCart(@PathVariable Long id, @RequestBody List<CartProductDto> cartProductDtos){
+    CartSummaryDto updateCart(@PathVariable Long id, @RequestBody List<CartProductDto> cartProductDtos){
         return CartMapper.mapToCartSummation(cartRepositoryImpl.actualizeCart(id, cartProductDtos));
 
     }

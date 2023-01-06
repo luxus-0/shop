@@ -7,7 +7,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import pl.nowogorski.shop.product.dto.ProductListDto;
 
 import java.util.List;
@@ -30,7 +33,7 @@ class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    ResponseEntity<Optional<Product>> readProducts(@PathVariable Long id) throws ProductNotFoundException {
+    ResponseEntity<Optional<Product>> readProducts(@PathVariable Long id) {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
     }
 
