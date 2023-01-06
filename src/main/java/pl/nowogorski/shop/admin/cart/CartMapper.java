@@ -8,22 +8,22 @@ import java.util.List;
 
 @Service
 class CartMapper {
-    public static CartSummationDto mapToCartSummation(Cart cart){
-        return CartSummationDto.builder()
+    public static CartSummaryDto mapToCartSummation(Cart cart){
+        return CartSummaryDto.builder()
                 .id(cart.getId())
                 .items(mapCartItems(cart.getItems()))
                 .sum(mapToSummation(cart.getItems()))
                 .build();
     }
 
-    private static List<CartSummationItemsDTO> mapCartItems(List<CartItem> items) {
+    private static List<CartSummaryItemDto> mapCartItems(List<CartItem> items) {
         return items.stream()
                 .map(CartMapper::mapToCartItem)
                 .toList();
     }
 
-    private static CartSummationItemsDTO mapToCartItem(CartItem cartItem) {
-        return CartSummationItemsDTO.builder()
+    private static CartSummaryItemDto mapToCartItem(CartItem cartItem) {
+        return CartSummaryItemDto.builder()
                 .id(cartItem.getId())
                 .quantity(cartItem.getQuantity())
                 .product(mapToProductDto(cartItem.getProduct()))
@@ -31,8 +31,8 @@ class CartMapper {
                 .build();
     }
 
-    private static ProductDTO mapToProductDto(Product product) {
-        return ProductDTO.builder()
+    private static ProductDto mapToProductDto(Product product) {
+        return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
@@ -46,8 +46,8 @@ class CartMapper {
         return cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
     }
 
-    private static SummationDTO mapToSummation(List<CartItem> items) {
-        return SummationDTO.builder()
+    private static SummaryDTO mapToSummation(List<CartItem> items) {
+        return SummaryDTO.builder()
                 .grossValue(sumGrossValue(items))
                 .build();
     }
