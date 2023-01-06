@@ -3,6 +3,7 @@ package pl.nowogorski.shop.admin.cart;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,14 +20,22 @@ import static java.time.LocalDateTime.now;
 class CartOldRemoval {
 
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
-    CartOldRemoval(CartRepository cartRepository) {
+    CartOldRemoval(CartRepository cartRepository, CartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
+    @Transactional
     @Scheduled(cron = "${cron.remove.old.carts}")
     void removeOldCarts(){
         List<Cart> carts = cartRepository.findByCreatedLessThan(now().minusDays(3));
         log.info("Old carts:" + carts.size());
+        carts.forEach(cart -> {
+            cartItemRepository.deleteByCartId(cart.getId());
+            cartRepository.deleteCardById(cart.getId());
+        });
+
     }
 }
