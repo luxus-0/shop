@@ -1,5 +1,6 @@
 package pl.nowogorski.shop.admin.cart;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.product.Product;
@@ -8,15 +9,17 @@ import pl.nowogorski.shop.product.ProductRepository;
 import static java.time.LocalDateTime.now;
 
 @Service
+@RequiredArgsConstructor
 class CartRepositoryImpl {
 
-    private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
+    private CartRepository cartRepository;
+    private ProductRepository productRepository;
 
     CartRepositoryImpl(CartRepository cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
     }
+
 
     public Cart readCart(Long id) {
         return cartRepository.findById(id).orElseThrow();
@@ -41,6 +44,6 @@ class CartRepositoryImpl {
         if(id == null || id <= 0){
             return cartRepository.save(Cart.builder().created(now()).build());
         }
-        return null;
+        return cartRepository.findById(id).orElseThrow();
     }
 }
