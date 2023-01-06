@@ -1,2 +1,0 @@
---select * from shop.public.databasechangelog;
---delete from shop.public.databasechangelog where id='16';
