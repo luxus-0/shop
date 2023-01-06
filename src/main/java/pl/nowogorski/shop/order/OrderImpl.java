@@ -72,7 +72,8 @@ class OrderImpl {
                         .price(cartItem.getProduct().getPrice())
                         .orderId(id)
                         .build()
-                ).findAny()
+                )
+               .findAny()
                .ifPresent(orderRowRepository::save);
     }
 }
