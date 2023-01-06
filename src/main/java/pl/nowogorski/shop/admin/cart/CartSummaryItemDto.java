@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public record CartSummationItemsDTO(Long id, int quantity, ProductDTO product, BigDecimal grossValue) {
+public record CartSummaryItemDto(Long id, int quantity, ProductDto product, BigDecimal grossValue) {
 }
