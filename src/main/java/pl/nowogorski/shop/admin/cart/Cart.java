@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -28,6 +29,12 @@ class Cart {
         if(items == null){
             items = new ArrayList<>();
         }
-        items.add(cartItem);
+        items.stream()
+                .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
+                .findFirst()
+                .ifPresentOrElse(
+                        item -> item.setQuantity(item.getQuantity() + 1),
+                        () -> items.add(cartItem)
+                );
     }
 }
