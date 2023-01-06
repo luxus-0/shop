@@ -3,7 +3,7 @@ package pl.nowogorski.shop.admin.product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pl.nowogorski.shop.admin.dto.AdminProductDto;
+import pl.nowogorski.shop.admin.product.dto.AdminProductDto;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;

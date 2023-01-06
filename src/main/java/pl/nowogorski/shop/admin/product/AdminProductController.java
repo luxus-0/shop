@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.nowogorski.shop.admin.dto.AdminProductDto;
+import pl.nowogorski.shop.admin.product.dto.AdminProductDto;
 import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.util.List;
