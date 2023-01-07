@@ -6,7 +6,6 @@ import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
-import pl.nowogorski.shop.customer.CustomerDto;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
@@ -33,7 +32,7 @@ class OrderImpl {
     }
 
     @Transactional
-    public OrderSummary placeOrder(CustomerDto customer) {
+    public OrderSummary placeOrder(OrderCustomerDto customer) {
 
         Cart cart = cartRepository.findById(customer.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(customer.getShipmentId()).orElseThrow();

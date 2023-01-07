@@ -1,11 +1,11 @@
-package pl.nowogorski.shop.customer;
+package pl.nowogorski.shop.order;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class CustomerDto {
+public class OrderCustomerDto {
     private Long id;
     @NotBlank
     private String firstName;
