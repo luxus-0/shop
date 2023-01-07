@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "order_row")
 class OrderRow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +25,5 @@ class OrderRow {
     private Long productId;
     private int quantity;
     private BigDecimal price;
+    private Long shipmentId;
 }
