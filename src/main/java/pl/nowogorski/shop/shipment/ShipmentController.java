@@ -5,21 +5,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.nowogorski.shop.order.InitOrder;
+import pl.nowogorski.shop.payment.PaymentService;
 
 @RestController
-@RequestMapping("/orders")
 class ShipmentController {
 
     private final ShipmentImpl shipmentImpl;
+    private final PaymentService paymentService;
 
-    ShipmentController(ShipmentImpl shipmentImpl) {
+    ShipmentController(ShipmentImpl shipmentImpl, PaymentService paymentService) {
         this.shipmentImpl = shipmentImpl;
+        this.paymentService = paymentService;
     }
 
-    @GetMapping("/shipments")
-    InitOrder loadOrderShipments(){
+    @GetMapping("/shipments/payments")
+    InitOrder loadShipmentPayments(){
         return InitOrder.builder()
                 .shipment(shipmentImpl.readShipments())
+                .payments(paymentService.readPayments())
                 .build();
     }
 
