@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.nowogorski.shop.product.dto.ProductListDto;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @Validated
+@RequestMapping("/products")
 @CrossOrigin("*")
 class ProductController {
 
@@ -27,17 +29,17 @@ class ProductController {
         this.productDatabaseImpl = productDatabaseImpl;
     }
 
-    @GetMapping("/products")
+    @GetMapping
     ResponseEntity<List<Product>> readProducts() {
         return ResponseEntity.ok(productDatabaseImpl.readProducts());
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<Optional<Product>> readProducts(@PathVariable Long id) {
         return ResponseEntity.ok(productDatabaseImpl.readProducts(id));
     }
 
-    @GetMapping
+    @GetMapping("/page")
     Page<ProductListDto> readProducts(Pageable pageable) {
         Page<Product> products = productDatabaseImpl.readProducts(pageable);
         List<ProductListDto> productListDtos = products.getContent().stream()

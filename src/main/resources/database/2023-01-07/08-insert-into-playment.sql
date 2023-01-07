@@ -1,0 +1,4 @@
+--liquibase formatted sql
+--changeset lnowogorski:23
+--insert into payment(name, type, check_payment, note)
+--values ('Bank transfer', 'card', true, 'Please make a transfer to the account:\n12 4567 4322 6543 9876 1234 7432\n Please enter the order title');

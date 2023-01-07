@@ -1,5 +1,6 @@
 package pl.nowogorski.shop.order;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.admin.cart.Cart;
@@ -15,6 +16,7 @@ import java.util.List;
 import static java.time.LocalDateTime.now;
 
 @Service
+@RequiredArgsConstructor
 class OrderImpl {
 
     private final OrderRepository orderRepository;
@@ -22,14 +24,6 @@ class OrderImpl {
     private final OrderRowRepository orderRowRepository;
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
-
-    OrderImpl(OrderRepository orderRepository, CartRepository cartRepository, OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository, ShipmentRepository shipmentRepository) {
-        this.orderRepository = orderRepository;
-        this.cartRepository = cartRepository;
-        this.orderRowRepository = orderRowRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.shipmentRepository = shipmentRepository;
-    }
 
     @Transactional
     public OrderSummary placeOrder(OrderCustomerDto customer) {

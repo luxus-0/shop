@@ -25,4 +25,6 @@ public class OrderCustomerDto {
     private Long cartId;
     @NotNull
     private Long shipmentId;
+    @NotNull
+    private Long paymentId;
 }
