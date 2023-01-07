@@ -2,6 +2,7 @@ package pl.nowogorski.shop.order;
 
 import lombok.Builder;
 import lombok.Getter;
+import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.shipment.Shipment;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 @Builder
 public class InitOrder {
     private List<Shipment> shipment;
+    private List<Payment> payments;
 }
