@@ -6,7 +6,6 @@ import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
-import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.customer.CustomerDto;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
@@ -43,7 +42,7 @@ class OrderImpl {
                 .customerId(customer.getId())
                 .placeDate(now())
                 .orderStatus(OrderStatus.NEW)
-                .grossAmount(calculateGrossAmount(cart.getItems()))
+                .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
                 .build();
 
         Order newOrder = orderRepository.save(order);
@@ -60,11 +59,12 @@ class OrderImpl {
                 .build();
     }
 
-    private BigDecimal calculateGrossAmount(List<CartItem> items) {
+    private BigDecimal calculateGrossAmount(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                 .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
+                .orElse(BigDecimal.ZERO)
+                .add(shipment.getPrice());
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
