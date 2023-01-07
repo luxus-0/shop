@@ -7,6 +7,8 @@ import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
+import pl.nowogorski.shop.payment.Payment;
+import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
@@ -24,18 +26,21 @@ class OrderImpl {
     private final OrderRowRepository orderRowRepository;
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderCustomerDto customer) {
 
         Cart cart = cartRepository.findById(customer.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(customer.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(customer.getPaymentId()).orElseThrow();
 
         Order order = Order.builder()
                 .customerId(customer.getId())
                 .placeDate(now())
                 .orderStatus(OrderStatus.NEW)
                 .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
 
         Order newOrder = orderRepository.save(order);
@@ -49,6 +54,7 @@ class OrderImpl {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossAmount(newOrder.getGrossAmount())
+                .payment(payment)
                 .build();
     }
 
