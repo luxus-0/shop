@@ -5,13 +5,8 @@ create table if not exists "order"(
     placeDate timestamp not null,
     orderStatus varchar(32) not null,
     grossAmount decimal(6,2) not null,
-    firstName varchar(255) not null,
-    lastName varchar(255) not null,
-    street varchar(255) not null,
-    zipCode varchar(255) not null,
-    city varchar(255) not null,
-    email varchar(255) not null,
-    phone varchar(255) not null
+    customer_id bigint not null,
+    constraint fk_order_customer_id foreign key (customer_id) references customer(id)
 );
 
 create table if not exists order_row(
