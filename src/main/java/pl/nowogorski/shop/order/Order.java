@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "order")
-class Order {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,11 +35,5 @@ class Order {
     @JoinColumn(name = "orderId")
     private List<OrderRow> orderRows;
     private BigDecimal grossAmount;
-    private String firstName;
-    private String lastName;
-    private String street;
-    private String zipCode;
-    private String city;
-    private String email;
-    private String phone;
+    private Long customerId;
 }
