@@ -1,13 +1,15 @@
 package pl.nowogorski.shop.customer;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 class CustomerRepositoryImpl {
 
-    private final CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     CustomerRepositoryImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
