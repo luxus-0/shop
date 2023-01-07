@@ -28,16 +28,14 @@ class OrderImpl {
     }
 
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
-        Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
+    public OrderSummary placeOrder(Cart cart, Long customerId) {
+        Long cartItemId = getCartItemId(cart);
+
+        Cart searchCart = cartRepository.findById(cart.getId()).orElseThrow();
+        CartItem searchCartItem = cartItemRepository.findById(cartItemId).orElseThrow();
+
         Order order = Order.builder()
-                .firstName(orderDto.getFirstName())
-                .lastName(orderDto.getLastName())
-                .street(orderDto.getStreet())
-                .zipCode(orderDto.getZipCode())
-                .city(orderDto.getCity())
-                .email(orderDto.getEmail())
-                .phone(orderDto.getPhone())
+                .customerId(customerId)
                 .placeDate(now())
                 .orderStatus(OrderStatus.NEW)
                 .grossAmount(calculateGrossAmount(cart.getItems()))
@@ -46,8 +44,8 @@ class OrderImpl {
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId());
 
-        cartItemRepository.deleteByCartId(orderDto.getCartId());
-        cartRepository.deleteCardById(orderDto.getCartId());
+        cartItemRepository.deleteByCartId(searchCartItem.getId());
+        cartRepository.deleteCardById(searchCart.getId());
 
         return OrderSummary.builder()
                 .id(newOrder.getId())
@@ -55,6 +53,14 @@ class OrderImpl {
                 .status(newOrder.getOrderStatus())
                 .grossAmount(newOrder.getGrossAmount())
                 .build();
+    }
+
+    private static Long getCartItemId(Cart cart) {
+        return cart.getItems()
+                .stream()
+                .map(CartItem::getId)
+                .findAny()
+                .orElseThrow();
     }
 
     private BigDecimal calculateGrossAmount(List<CartItem> items) {
