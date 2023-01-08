@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.admin.cart.Cart;
-import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.payment.Payment;
@@ -12,13 +11,11 @@ import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
-import java.util.List;
-
 import static java.time.LocalDateTime.now;
-import static pl.nowogorski.shop.order.OrderMapper.createNewOrder;
-import static pl.nowogorski.shop.order.OrderMapper.createOrderRow;
-import static pl.nowogorski.shop.order.OrderMapper.createOrderRowWithQuantity;
-import static pl.nowogorski.shop.order.OrderMapper.createOrderSummary;
+import static pl.nowogorski.shop.order.mapper.OrderMapper.createNewOrder;
+import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderRow;
+import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderRowWithQuantity;
+import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderSummary;
 
 @Service
 @RequiredArgsConstructor
@@ -43,13 +40,17 @@ class OrderImpl {
         return createOrderSummary(payment, newOrder);
     }
 
-    private String createEmailMessage(Order order){
+    private void sendConfirmEmail(){
 
     }
 
     private void clearOrderCart(OrderDto customer) {
         cartItemRepository.deleteByCartId(customer.getCartId());
         cartRepository.deleteCardById(customer.getCartId());
+    }
+
+    private String createEmailMessage(Order order){
+
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
@@ -65,6 +66,7 @@ class OrderImpl {
         cart.getItems().stream()
                 .map(cartItem -> createOrderRowWithQuantity(orderId, cartItem))
                 .peek(orderRowRepository::save)
-                .toList();
+                .findAny()
+                .orElseThrow();
     }
 }
