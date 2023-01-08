@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class OrderCustomerDto {
+public class OrderDto {
     private Long id;
     @NotBlank
     private String firstName;
