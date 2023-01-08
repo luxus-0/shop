@@ -12,10 +12,13 @@ import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+import static pl.nowogorski.shop.order.OrderMapper.createNewOrder;
+import static pl.nowogorski.shop.order.OrderMapper.createOrderRow;
+import static pl.nowogorski.shop.order.OrderMapper.createOrderRowWithQuantity;
+import static pl.nowogorski.shop.order.OrderMapper.createOrderSummary;
 
 @Service
 @RequiredArgsConstructor
@@ -29,56 +32,39 @@ class OrderImpl {
     private final PaymentRepository paymentRepository;
 
     @Transactional
-    public OrderSummary placeOrder(OrderCustomerDto customer) {
-
-        Cart cart = cartRepository.findById(customer.getCartId()).orElseThrow();
-        Shipment shipment = shipmentRepository.findById(customer.getShipmentId()).orElseThrow();
-        Payment payment = paymentRepository.findById(customer.getPaymentId()).orElseThrow();
-
-        Order order = Order.builder()
-                .customerId(customer.getId())
-                .placeDate(now())
-                .orderStatus(OrderStatus.NEW)
-                .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
-                .payment(payment)
-                .build();
-
+    public OrderSummary placeOrder(OrderDto orderDto) {
+        Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
+        Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
+        Order order = createNewOrder(orderDto, cart, shipment, payment);
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId(), shipment);
-
-        cartItemRepository.deleteByCartId(customer.getCartId());
-        cartRepository.deleteCardById(customer.getCartId());
-
-        return OrderSummary.builder()
-                .id(newOrder.getId())
-                .placeDate(newOrder.getPlaceDate())
-                .status(newOrder.getOrderStatus())
-                .grossAmount(newOrder.getGrossAmount())
-                .payment(payment)
-                .build();
+        clearOrderCart(orderDto);
+        return createOrderSummary(payment, newOrder);
     }
 
-    private BigDecimal calculateGrossAmount(List<CartItem> items, Shipment shipment) {
-        return items.stream()
-                .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
-                .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO)
-                .add(shipment.getPrice());
+    private String createEmailMessage(Order order){
+
+    }
+
+    private void clearOrderCart(OrderDto customer) {
+        cartItemRepository.deleteByCartId(customer.getCartId());
+        cartRepository.deleteCardById(customer.getCartId());
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
-       List<OrderRow> savedProductRows = saveProductRows(cart, orderId, shipment);
-      savedProductRows.stream().findAny().ifPresent(orderRowRepository::save);
+        saveProductRows(cart, orderId);
+        saveShipmentRow(orderId, shipment);
     }
 
-    private static List<OrderRow> saveProductRows(Cart cart, Long orderId, Shipment shipment) {
-        return cart.getItems().stream()
-                .map(cartItem -> OrderRow.builder()
-                        .quantity(cartItem.getQuantity())
-                        .productId(cartItem.getProduct().getId())
-                        .price(cartItem.getProduct().getPrice())
-                        .shipmentId(shipment.getId())
-                        .orderId(orderId)
-                        .build()).toList();
+    private void saveShipmentRow(Long orderId, Shipment shipment) {
+        orderRowRepository.save(createOrderRow(orderId, shipment));
+    }
+
+    private void saveProductRows(Cart cart, Long orderId) {
+        cart.getItems().stream()
+                .map(cartItem -> createOrderRowWithQuantity(orderId, cartItem))
+                .peek(orderRowRepository::save)
+                .toList();
     }
 }
