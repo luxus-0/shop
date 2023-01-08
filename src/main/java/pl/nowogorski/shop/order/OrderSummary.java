@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @Builder
+public
 class OrderSummary {
     private Long id;
     private LocalDateTime placeDate;

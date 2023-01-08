@@ -1,8 +1,13 @@
-package pl.nowogorski.shop.order;
+package pl.nowogorski.shop.order.mapper;
 
 import org.springframework.stereotype.Service;
 import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItem;
+import pl.nowogorski.shop.order.Order;
+import pl.nowogorski.shop.order.OrderDto;
+import pl.nowogorski.shop.order.OrderRow;
+import pl.nowogorski.shop.order.OrderStatus;
+import pl.nowogorski.shop.order.OrderSummary;
 import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.shipment.Shipment;
 
@@ -12,7 +17,7 @@ import java.util.List;
 import static java.time.LocalDateTime.now;
 
 @Service
-class OrderMapper {
+public class OrderMapper {
     public static Order createNewOrder(OrderDto customer, Cart cart, Shipment shipment, Payment payment) {
         return Order.builder()
                 .customerId(customer.getId())
@@ -58,7 +63,4 @@ class OrderMapper {
                 .orderId(orderId)
                 .build();
     }
-
-
-
 }
