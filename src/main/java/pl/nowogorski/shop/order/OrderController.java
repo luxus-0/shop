@@ -14,7 +14,7 @@ class OrderController {
     }
 
     @PostMapping("/orders/")
-    OrderSummary placeOrder(@RequestBody OrderCustomerDto customerDto){
+    OrderSummary placeOrder(@RequestBody OrderDto customerDto){
         return orderImpl.placeOrder(customerDto);
     }
 }
