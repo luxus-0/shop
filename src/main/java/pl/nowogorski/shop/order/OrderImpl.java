@@ -6,16 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
+import pl.nowogorski.shop.customer.Customer;
+import pl.nowogorski.shop.mailsender.MailSenderImpl;
 import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
-import static java.time.LocalDateTime.now;
-import static pl.nowogorski.shop.order.mapper.OrderMapper.createNewOrder;
-import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderRow;
-import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderRowWithQuantity;
-import static pl.nowogorski.shop.order.mapper.OrderMapper.createOrderSummary;
+import java.time.format.DateTimeFormatter;
+
+import static pl.nowogorski.shop.order.mapper.OrderMapper.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ class OrderImpl {
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
+    private final MailSenderImpl mailSender;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
@@ -37,7 +38,17 @@ class OrderImpl {
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
+        String toEmail = sendToCustomerEmail(order);
+        mailSender.send(toEmail, "Your order has been accepted", createEmailMessage(order));
         return createOrderSummary(payment, newOrder);
+    }
+
+    private String sendToCustomerEmail(Order order) {
+        return order.getCustomers()
+                .stream()
+                .map(Customer::getEmail)
+                .findAny()
+                .orElseThrow();
     }
 
     private void sendConfirmEmail(){
@@ -50,7 +61,13 @@ class OrderImpl {
     }
 
     private String createEmailMessage(Order order){
-        return "";
+        return "Your order with id: " + order.getId() +
+                "\nDate order: " + order.getPlaceDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                "\nPrice: " +order.getGrossAmount() + " PLN " +
+                "\n\n" +
+                "\nPayment: " + order.getPayment().getName() +
+                (order.getPayment().getNote() != null ? "\n" + order.getPayment().getNote() : "") +
+                "\n\n Thank you for shopping, best regards: ";
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
