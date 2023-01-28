@@ -50,7 +50,7 @@ class OrderImpl {
     }
 
     private String createEmailMessage(Order order){
-
+        return "";
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
