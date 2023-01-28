@@ -6,7 +6,9 @@ create table if not exists "order"(
     orderStatus varchar(32) not null,
     grossAmount decimal(6,2) not null,
     customer_id bigint not null,
-    constraint fk_order_customer_id foreign key (customer_id) references customer(id)
+    payment_id bigint not null,
+    constraint fk_order_customer_id foreign key (customer_id) references customer(id),
+    constraint fk_order_payment_id foreign key (payment_id) references payment(id)
 );
 
 create table if not exists order_row(
