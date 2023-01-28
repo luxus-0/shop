@@ -14,11 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.payment.Payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,7 +39,9 @@ public class Order {
     @JoinColumn(name = "orderId")
     private List<OrderRow> orderRows;
     private BigDecimal grossAmount;
-    private Long customerId;
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private Set<Customer> customers;
     @OneToOne
     private Payment payment;
 }
