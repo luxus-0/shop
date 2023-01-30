@@ -7,7 +7,8 @@ import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.customer.Customer;
-import pl.nowogorski.shop.mailsender.MailSenderImpl;
+import pl.nowogorski.shop.mailsender.EmailClient;
+import pl.nowogorski.shop.mailsender.EmailSenderImpl;
 import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
@@ -27,7 +28,7 @@ class OrderImpl {
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
-    private final MailSenderImpl mailSender;
+    private final EmailClient emailClient;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
@@ -39,7 +40,7 @@ class OrderImpl {
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         String toEmail = sendToCustomerEmail(order);
-        mailSender.send(toEmail, "Your order has been accepted", createEmailMessage(order));
+        emailClient.getInstance().send(toEmail, "Your order has been accepted", createEmailMessage(order));
         return createOrderSummary(payment, newOrder);
     }
 
