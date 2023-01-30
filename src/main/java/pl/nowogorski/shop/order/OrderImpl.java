@@ -1,6 +1,8 @@
 package pl.nowogorski.shop.order;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.admin.cart.Cart;
@@ -20,6 +22,7 @@ import static pl.nowogorski.shop.order.mapper.OrderMapper.*;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 class OrderImpl {
 
     private final OrderRepository orderRepository;
@@ -40,6 +43,7 @@ class OrderImpl {
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         String toEmail = sendToCustomerEmail(order);
+        log.info("order has been placed");
         emailClient.getInstance().send(toEmail, "Your order has been accepted", createEmailMessage(order));
         return createOrderSummary(payment, newOrder);
     }

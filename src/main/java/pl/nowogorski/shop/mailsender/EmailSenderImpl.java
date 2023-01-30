@@ -1,10 +1,13 @@
 package pl.nowogorski.shop.mailsender;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 public class EmailSenderImpl implements EmailSender {
 
     private final JavaMailSender mailSender;
@@ -13,6 +16,7 @@ public class EmailSenderImpl implements EmailSender {
         this.mailSender = mailSender;
     }
 
+    @Async
     @Override
     public void send(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -21,5 +25,6 @@ public class EmailSenderImpl implements EmailSender {
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);
+        log.info("Email send");
     }
 }
