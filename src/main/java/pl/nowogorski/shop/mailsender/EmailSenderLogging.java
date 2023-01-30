@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-public class EmailSenderChecker implements EmailSender {
+public class EmailSenderLogging implements EmailSender {
     @Override
     public void send(String to, String subject, String text) {
         log.info(

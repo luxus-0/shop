@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-class ShipmentImpl {
+public class ShipmentImpl {
 
     private final ShipmentRepository shipmentRepository;
 
@@ -13,7 +13,7 @@ class ShipmentImpl {
         this.shipmentRepository = shipmentRepository;
     }
 
-    List<Shipment> readShipments() {
+    public List<Shipment> readShipments() {
         return shipmentRepository.findAll();
     }
 
