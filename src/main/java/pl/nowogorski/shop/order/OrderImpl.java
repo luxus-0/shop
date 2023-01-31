@@ -42,10 +42,17 @@ class OrderImpl {
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
-        String toEmail = sendToCustomerEmail(order);
         log.info("order has been placed");
-        emailClient.getInstance().send(toEmail, "Your order has been accepted", createEmailMessage(order));
+        sendConfirmEmail(orderDto, cart, shipment, payment, newOrder);
         return createOrderSummary(payment, newOrder);
+    }
+
+    private void sendConfirmEmail(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Order newOrder) {
+        String toEmail = sendToCustomerEmail(newOrder);
+        String emailMessage = createEmailMessage(createNewOrder(orderDto, cart, shipment, payment));
+        String subject = "Your order has been accepted";
+        emailClient.getInstance().send(toEmail, subject, emailMessage);
+
     }
 
     private String sendToCustomerEmail(Order order) {
@@ -54,10 +61,6 @@ class OrderImpl {
                 .map(Customer::getEmail)
                 .findAny()
                 .orElseThrow();
-    }
-
-    private void sendConfirmEmail(){
-
     }
 
     private void clearOrderCart(OrderDto customer) {
