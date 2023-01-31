@@ -1,5 +1,5 @@
 package pl.nowogorski.shop.payment;
 
-enum PaymentType {
+public enum PaymentType {
     BANK, TRANSFER
 }
