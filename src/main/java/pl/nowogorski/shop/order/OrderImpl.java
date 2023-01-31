@@ -2,7 +2,6 @@ package pl.nowogorski.shop.order;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.admin.cart.Cart;
@@ -10,7 +9,7 @@ import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.mailsender.EmailClient;
-import pl.nowogorski.shop.mailsender.EmailSenderImpl;
+import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.shipment.Shipment;
@@ -18,7 +17,7 @@ import pl.nowogorski.shop.shipment.ShipmentRepository;
 
 import java.time.format.DateTimeFormatter;
 
-import static pl.nowogorski.shop.order.mapper.OrderMapper.*;
+import static pl.nowogorski.shop.order.OrderMapper.*;
 
 @Service
 @RequiredArgsConstructor
@@ -84,12 +83,12 @@ class OrderImpl {
     }
 
     private void saveShipmentRow(Long orderId, Shipment shipment) {
-        orderRowRepository.save(createOrderRow(orderId, shipment));
+        orderRowRepository.save(mapToOrderRow(orderId, shipment));
     }
 
     private void saveProductRows(Cart cart, Long orderId) {
         cart.getItems().stream()
-                .map(cartItem -> createOrderRowWithQuantity(orderId, cartItem))
+                .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem))
                 .peek(orderRowRepository::save)
                 .findAny()
                 .orElseThrow();
