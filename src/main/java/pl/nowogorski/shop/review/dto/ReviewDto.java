@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.review;
+package pl.nowogorski.shop.review.dto;
 
 import lombok.Builder;
 
