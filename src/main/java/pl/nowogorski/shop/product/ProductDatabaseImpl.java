@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.product.dto.ProductDto;
 import pl.nowogorski.shop.review.Review;
-import pl.nowogorski.shop.review.ReviewDto;
+import pl.nowogorski.shop.review.dto.ReviewDto;
 
 import java.util.List;
 import java.util.Optional;

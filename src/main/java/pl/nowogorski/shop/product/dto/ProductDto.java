@@ -1,7 +1,7 @@
 package pl.nowogorski.shop.product.dto;
 
 import lombok.Builder;
-import pl.nowogorski.shop.review.ReviewDto;
+import pl.nowogorski.shop.review.dto.ReviewDto;
 
 import java.math.BigDecimal;
 import java.util.List;
