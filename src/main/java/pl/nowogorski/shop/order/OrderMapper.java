@@ -6,10 +6,15 @@ import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.Payment;
+import pl.nowogorski.shop.payment.PaymentType;
+import pl.nowogorski.shop.product.Product;
 import pl.nowogorski.shop.shipment.Shipment;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.time.LocalDateTime.now;
@@ -21,7 +26,7 @@ class OrderMapper {
         Set<Customer> customers = Set.of(customer);
         return Order.builder()
                 .customers(customers)
-                .placeDate(now())
+                .placeDate(now(Clock.systemUTC()))
                 .orderStatus(OrderStatus.NEW)
                 .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
                 .payment(payment)
@@ -73,6 +78,77 @@ class OrderMapper {
                 .productId(cartItem.getProduct().getId())
                 .price(cartItem.getProduct().getPrice())
                 .orderId(orderId)
+                .build();
+    }
+
+    static Optional<Payment> createPayment() {
+        return Optional.of(Payment.builder()
+                .id(1L)
+                .name("test payment")
+                .type(PaymentType.TRANSFER)
+                .checkPayment(true)
+                .build());
+    }
+
+    static Optional<Shipment> createShipment() {
+        return Optional.of(Shipment.builder()
+                .id(3L)
+                .price(new BigDecimal("22.22"))
+                .build());
+    }
+
+    static Optional<Cart> createCart() {
+        return Optional.of(Cart.builder()
+                .id(1L)
+                .created(LocalDateTime.now(Clock.systemUTC()))
+                .items(createItems())
+                .build());
+    }
+
+    private static List<CartItem> createItems() {
+        return List.of(createCartItem1(), createCartItem2());
+    }
+
+    private static CartItem createCartItem2() {
+        return CartItem.builder()
+                .id(2L)
+                .cartId(1L)
+                .quantity(1)
+                .product(Product.builder()
+                        .id(2L)
+                        .price(new BigDecimal("11.34"))
+                        .build())
+                .build();
+    }
+
+    private static CartItem createCartItem1() {
+        return CartItem.builder()
+                .id(1L)
+                .cartId(1L)
+                .quantity(1)
+                .product(createProduct())
+                .build();
+    }
+
+    private static Product createProduct() {
+        return Product.builder()
+                .id(1L)
+                .price(new BigDecimal("11.34"))
+                .build();
+    }
+
+    static OrderDto createOrderDto() {
+        return OrderDto.builder()
+                .firstName("Łukasz")
+                .lastName("Lelek")
+                .street("Zilencja")
+                .zipCode("34-560")
+                .city("Gwarenda")
+                .email("bisek@o2.as")
+                .phone("+345678433")
+                .cartId(1L)
+                .shipmentId(2L)
+                .paymentId(3L)
                 .build();
     }
 }
