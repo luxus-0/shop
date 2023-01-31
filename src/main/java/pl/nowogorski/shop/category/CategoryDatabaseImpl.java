@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.nowogorski.shop.category.dto.CategoryDto;
 import pl.nowogorski.shop.product.Product;
 import pl.nowogorski.shop.product.ProductRepository;
 import pl.nowogorski.shop.product.dto.ProductListDto;
