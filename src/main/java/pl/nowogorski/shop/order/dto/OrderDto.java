@@ -2,9 +2,11 @@ package pl.nowogorski.shop.order.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class OrderDto {
     private Long id;
     @NotBlank
