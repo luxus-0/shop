@@ -1,14 +1,10 @@
-package pl.nowogorski.shop.order.mapper;
+package pl.nowogorski.shop.order;
 
 import org.springframework.stereotype.Service;
 import pl.nowogorski.shop.admin.cart.Cart;
 import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.customer.Customer;
-import pl.nowogorski.shop.order.Order;
-import pl.nowogorski.shop.order.OrderDto;
-import pl.nowogorski.shop.order.OrderRow;
-import pl.nowogorski.shop.order.OrderStatus;
-import pl.nowogorski.shop.order.OrderSummary;
+import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.Payment;
 import pl.nowogorski.shop.shipment.Shipment;
 
@@ -19,9 +15,10 @@ import java.util.Set;
 import static java.time.LocalDateTime.now;
 
 @Service
-public class OrderMapper {
-    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
-        Set<Customer> customers = Set.of(createCustomer(orderDto));
+class OrderMapper {
+    static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+        Customer customer = createCustomer(orderDto);
+        Set<Customer> customers = Set.of(customer);
         return Order.builder()
                 .customers(customers)
                 .placeDate(now())
@@ -43,7 +40,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public static BigDecimal calculateGrossAmount(List<CartItem> items, Shipment shipment) {
+    static BigDecimal calculateGrossAmount(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                 .reduce(BigDecimal::add)
@@ -51,7 +48,7 @@ public class OrderMapper {
                 .add(shipment.getPrice());
     }
 
-    public static OrderSummary createOrderSummary(Payment payment, Order newOrder) {
+    static OrderSummary createOrderSummary(Payment payment, Order newOrder) {
         return OrderSummary.builder()
                 .id(newOrder.getId())
                 .placeDate(newOrder.getPlaceDate())
@@ -61,7 +58,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public static OrderRow createOrderRow(Long orderId, Shipment shipment) {
+    static OrderRow mapToOrderRow(Long orderId, Shipment shipment) {
         return OrderRow.builder()
                 .quantity(1)
                 .price(shipment.getPrice())
@@ -70,7 +67,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public static OrderRow createOrderRowWithQuantity(Long orderId, CartItem cartItem) {
+    static OrderRow mapToOrderRowWithQuantity(Long orderId, CartItem cartItem) {
         return OrderRow.builder()
                 .quantity(cartItem.getQuantity())
                 .productId(cartItem.getProduct().getId())
