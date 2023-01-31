@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.order;
+package pl.nowogorski.shop.order.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
