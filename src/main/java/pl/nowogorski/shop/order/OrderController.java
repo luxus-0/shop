@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.PaymentService;
 import pl.nowogorski.shop.shipment.ShipmentImpl;
 
