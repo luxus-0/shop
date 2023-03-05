@@ -1,4 +1,4 @@
-package pl.nowogorski.shop.config;
+package pl.nowogorski.shop.infrastructure.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
