@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-public class EmailSenderLogging implements EmailSender {
+public class FakeEmailService implements EmailSender {
     @Override
     public void send(String to, String subject, String text) {
         log.info(

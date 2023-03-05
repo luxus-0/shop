@@ -3,9 +3,8 @@ package pl.nowogorski.shop.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import pl.nowogorski.shop.mailsender.EmailSender;
-import pl.nowogorski.shop.mailsender.EmailSenderLogging;
+import pl.nowogorski.shop.mailsender.FakeEmailService;
 import pl.nowogorski.shop.mailsender.EmailSenderImpl;
 
 public class EmailConfig {
@@ -19,6 +18,6 @@ public class EmailConfig {
     @Bean
     @ConditionalOnProperty(name = "app.email.sender", havingValue = "mailServiceLog")
     public EmailSender emailSenderChecker(){
-        return new EmailSenderLogging();
+        return new FakeEmailService();
     }
 }
