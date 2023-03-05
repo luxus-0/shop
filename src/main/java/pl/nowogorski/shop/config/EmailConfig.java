@@ -3,6 +3,7 @@ package pl.nowogorski.shop.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import pl.nowogorski.shop.mailsender.EmailSender;
 import pl.nowogorski.shop.mailsender.EmailSenderLogging;
 import pl.nowogorski.shop.mailsender.EmailSenderImpl;
