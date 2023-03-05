@@ -10,20 +10,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmailClient {
     @Value("${app.email.sender}")
-    private String properties;
+    private String emailProperties;
     private final Map<String, EmailSender> emailSenderMap;
 
     public EmailSender getInstance(){
-        if(properties.equals("emailSenderLogging")){
-            return emailSenderMap.get("emailSenderLogging");
+        if(emailProperties.equals("fakeEmailService")){
+            return emailSenderMap.get("fakeEmailService");
         }
-        return emailSenderMap.get("emailSender");
+        return emailSenderMap.get("mailService");
     }
 
-    public EmailSender getInstance(String name){
-        if(properties.equals("emailSenderLogging")){
-            return emailSenderMap.get("emailSenderLogging");
+    public EmailSender getInstance(String beanName){
+        if(emailProperties.equals("fakeEmailService")){
+            return emailSenderMap.get("fakeEmailService");
         }
-        return emailSenderMap.get(name);
+        return emailSenderMap.get(beanName);
     }
 }
