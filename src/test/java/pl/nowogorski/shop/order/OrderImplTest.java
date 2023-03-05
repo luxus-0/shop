@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.mailsender.EmailClient;
-import pl.nowogorski.shop.mailsender.EmailSenderLogging;
+import pl.nowogorski.shop.mailsender.FakeEmailService;
 import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.PaymentRepository;
 import pl.nowogorski.shop.payment.PaymentType;
@@ -52,7 +52,7 @@ class OrderImplTest {
         when(shipmentRepository.findById(any())).thenReturn(createShipment());
         when(paymentRepository.findById(any())).thenReturn(createPayment());
         when(orderRepository.save(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
-        when(emailSender.getInstance()).thenReturn(new EmailSenderLogging());
+        when(emailSender.getInstance()).thenReturn(new FakeEmailService());
         //when
         OrderSummary orderSummary = orderImpl.placeOrder(orderDto);
         //then
