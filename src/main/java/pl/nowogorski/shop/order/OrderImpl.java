@@ -25,8 +25,9 @@ class OrderImpl {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
-    private final OrderRowRepository orderRowRepository;
+
     private final CartItemRepository cartItemRepository;
+    private final OrderRowRepository orderRowRepository;
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
     private final EmailClient emailClient;
@@ -52,7 +53,6 @@ class OrderImpl {
         emailClient.getInstance().send(toEmail, subject, emailMessage);
 
     }
-
     private String sendToCustomerEmail(Order order) {
         return order.getCustomers()
                 .stream()
