@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.nowogorski.shop.product.Product;
 import pl.nowogorski.shop.product.ProductRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -44,7 +45,7 @@ class CartRepositoryImpl {
 
     private Cart getInitializedCart(Long id) {
         if(id == null || id <= 0){
-            return cartRepository.save(Cart.builder().created(now()).build());
+            return cartRepository.save(Cart.builder().created(LocalDate.now()).build());
         }
         return cartRepository.findById(id).orElseThrow();
     }

@@ -6,7 +6,7 @@ class OrderEmailMessage {
 
     static String createEmailMessage(Order order){
         return "Your order with id: " + order.getId() +
-                "\nDate order: " + order.getPlaceDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                "\nDate order: " + order.getPlaceDate().format(DateTimeFormatter.ISO_DATE) +
                 "\nPrice: " +order.getGrossAmount() + " PLN " +
                 "\n\n" +
                 "\nPayment: " + order.getPayment().getName() +

@@ -18,6 +18,7 @@ import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.payment.Payment;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime placeDate;
+    private LocalDate placeDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     @OneToMany
