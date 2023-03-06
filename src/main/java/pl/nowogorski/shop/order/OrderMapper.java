@@ -12,7 +12,9 @@ import pl.nowogorski.shop.shipment.Shipment;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,12 +23,13 @@ import static java.time.LocalDateTime.now;
 
 @Service
 class OrderMapper {
+
     static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
         Customer customer = createCustomer(orderDto);
         Set<Customer> customers = Set.of(customer);
         return Order.builder()
                 .customers(customers)
-                .placeDate(now(Clock.systemUTC()))
+                .placeDate(cart.getCreated())
                 .orderStatus(OrderStatus.NEW)
                 .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
                 .payment(payment)
@@ -100,7 +103,7 @@ class OrderMapper {
     static Optional<Cart> createCart() {
         return Optional.of(Cart.builder()
                 .id(1L)
-                .created(LocalDateTime.now(Clock.systemUTC()))
+                .created(LocalDate.now())
                 .items(createItems())
                 .build());
     }

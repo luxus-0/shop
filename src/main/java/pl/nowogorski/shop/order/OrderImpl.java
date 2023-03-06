@@ -78,8 +78,7 @@ class OrderImpl {
     private void saveProductRows(Cart cart, Long orderId) {
         cart.getItems().stream()
                 .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem))
-                .peek(orderRowRepository::save)
                 .findAny()
-                .orElseThrow();
+                .ifPresent(orderRowRepository::save);
     }
 }

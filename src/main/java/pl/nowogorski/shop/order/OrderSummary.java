@@ -6,6 +6,7 @@ import lombok.Getter;
 import pl.nowogorski.shop.payment.Payment;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public
 class OrderSummary {
     private Long id;
-    private LocalDateTime placeDate;
+    private LocalDate placeDate;
     private OrderStatus status;
     private BigDecimal grossAmount;
     private Payment payment;

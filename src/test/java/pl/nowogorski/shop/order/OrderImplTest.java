@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.nowogorski.shop.admin.cart.Cart;
+import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.admin.cart.CartItemRepository;
 import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.mailsender.EmailClient;
@@ -16,7 +18,13 @@ import pl.nowogorski.shop.payment.PaymentType;
 import pl.nowogorski.shop.shipment.ShipmentRepository;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,6 +32,7 @@ import static pl.nowogorski.shop.order.OrderMapper.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderImplTest {
+
 
     @InjectMocks
     private OrderImpl orderImpl;
@@ -58,6 +67,7 @@ class OrderImplTest {
         //then
         assertThat(orderSummary).isNotNull();
         assertThat(orderSummary.getStatus()).isEqualTo(OrderStatus.NEW);
+        assertThat(orderSummary.getPlaceDate()).isEqualTo(LocalDate.now());
         assertThat(orderSummary.getGrossAmount()).isEqualTo(new BigDecimal("44.90"));
         assertThat(orderSummary.getPayment().getType()).isEqualTo(PaymentType.TRANSFER);
         assertThat(orderSummary.getPayment().getName()).isEqualTo("test payment");
