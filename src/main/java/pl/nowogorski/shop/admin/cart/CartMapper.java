@@ -8,23 +8,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-class AdminCartMapper {
-    public static AdminCartSummaryDto mapToCartSummary(AdminCart adminCart){
-        return AdminCartSummaryDto.builder()
-                .id(adminCart.getId())
-                .items(mapCartItems(adminCart.getItems()))
-                .summary(mapToSummary(adminCart.getItems()))
+class CartMapper {
+    public static CartSummaryDto mapToCartSummary(Cart cart){
+        return CartSummaryDto.builder()
+                .id(cart.getId())
+                .items(mapCartItems(cart.getItems()))
+                .summary(mapToSummary(cart.getItems()))
                 .build();
     }
 
-    private static List<AdminCartSummaryItemDto> mapCartItems(List<AdminCartItem> items) {
+    private static List<CartSummaryItemDto> mapCartItems(List<CartItem> items) {
         return items.stream()
-                .map(AdminCartMapper::mapToCartItem)
+                .map(CartMapper::mapToCartItem)
                 .toList();
     }
 
-    private static AdminCartSummaryItemDto mapToCartItem(AdminCartItem adminCartItem) {
-        return AdminCartSummaryItemDto.builder()
+    private static CartSummaryItemDto mapToCartItem(CartItem adminCartItem) {
+        return CartSummaryItemDto.builder()
                 .id(adminCartItem.getId())
                 .quantity(adminCartItem.getQuantity())
                 .product(mapToProductDto(adminCartItem.getProduct()))
@@ -43,19 +43,19 @@ class AdminCartMapper {
                 .build();
     }
 
-    private static BigDecimal calculateGrossValue(AdminCartItem adminCartItem) {
+    private static BigDecimal calculateGrossValue(CartItem adminCartItem) {
         return adminCartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(adminCartItem.getQuantity()));
     }
 
-    private static AdminSummaryDto mapToSummary(List<AdminCartItem> items) {
-        return AdminSummaryDto.builder()
+    private static SummaryDto mapToSummary(List<CartItem> items) {
+        return SummaryDto.builder()
                 .grossValue(sumGrossValue(items))
                 .build();
     }
 
-    private static BigDecimal sumGrossValue(List<AdminCartItem> items) {
+    private static BigDecimal sumGrossValue(List<CartItem> items) {
         return items.stream()
-                .map(AdminCartMapper::calculateGrossValue)
+                .map(CartMapper::calculateGrossValue)
                 .reduce((BigDecimal::add))
                 .orElse(BigDecimal.ZERO);
     }

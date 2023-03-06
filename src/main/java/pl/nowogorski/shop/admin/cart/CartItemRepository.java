@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AdminCartItemRepository extends JpaRepository<AdminCartItem, Long> {
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Long countByCartId(Long cardId);
     @Query("delete from CartItem ci where ci.cartId =: cartId")
     @Modifying

@@ -16,16 +16,17 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminCart {
+@Table(name = "cart")
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate created;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cartId")
-    private List<AdminCartItem> items;
+    private List<CartItem> items;
 
-    void addProduct(AdminCartItem adminCartItem){
+    void addProduct(CartItem adminCartItem){
         if(items == null){
             items = new ArrayList<>();
         }

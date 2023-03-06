@@ -14,24 +14,24 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AdminAdminCartRepositoryImplTest {
+class CartRepositoryImplTest {
 
     @Mock
-    private AdminCartRepository adminCartRepository;
+    private CartRepository cartRepository;
     @Mock
     private ProductRepository productRepository;
     @InjectMocks
-    private AdminCartService adminCartService;
+    private CartService cartService;
 
     @Test
     void shouldAddProductToCartWhenCardIdNotExists(){
         //given
         Long cartId = 1L;
-        AdminCartProductDto adminCartProductDto = new AdminCartProductDto(1L, 1);
+        CartProductDto cartProductDto = new CartProductDto(1L, 1);
         when(productRepository.findById(1L)).thenReturn(Optional.of(Product.builder().id(1L).build()));
-        when(adminCartRepository.findById(cartId)).thenReturn(Optional.of(AdminCart.builder().id(1L).build()));
+        when(cartRepository.findById(cartId)).thenReturn(Optional.of(Cart.builder().id(1L).build()));
         //when
-        AdminCart result = adminCartService.addProductToCart(cartId, adminCartProductDto);
+        Cart result = cartService.addProductToCart(cartId, cartProductDto);
         //then
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getId()).isEqualTo(1L);

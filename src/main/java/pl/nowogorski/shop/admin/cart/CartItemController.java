@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cartItems")
-class AdminCartItemController {
+class CartItemController {
 
-    private final AdminCartItemImpl adminCartItemImpl;
+    private final CartItemImpl cartItemImpl;
 
-    AdminCartItemController(AdminCartItemImpl adminCartItemImpl) {
-        this.adminCartItemImpl = adminCartItemImpl;
+    CartItemController(CartItemImpl cartItemImpl) {
+        this.cartItemImpl = cartItemImpl;
     }
 
     @DeleteMapping("/{id}")
     void deleteCartItem(@PathVariable Long id){
-        adminCartItemImpl.deleteCartItem(id);
+        cartItemImpl.deleteCartItem(id);
     }
 
     @GetMapping("/count/{cartId}")
     Long countItemInCart(@PathVariable Long cartId){
-        return adminCartItemImpl.countItemInCart(cartId);
+        return cartItemImpl.countItemInCart(cartId);
     }
 }

@@ -5,12 +5,12 @@ import lombok.*;
 import pl.nowogorski.shop.product.Product;
 
 @Entity
+@Builder
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminCartItem {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
