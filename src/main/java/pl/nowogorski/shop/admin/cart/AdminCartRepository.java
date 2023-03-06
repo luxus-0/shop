@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface CartRepository extends JpaRepository<Cart, Long> {
-    List<Cart> findByCreatedLessThan(LocalDateTime minusDays);
+public interface AdminCartRepository extends JpaRepository<AdminCart, Long> {
+    List<AdminCart> findByCreatedLessThan(LocalDateTime minusDays);
     @Query("delete from Cart c where c.id =: id")
     @Modifying
     void deleteCardById(Long id);

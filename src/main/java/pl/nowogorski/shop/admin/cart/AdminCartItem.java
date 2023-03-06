@@ -10,7 +10,7 @@ import pl.nowogorski.shop.product.Product;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartItem {
+public class AdminCartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

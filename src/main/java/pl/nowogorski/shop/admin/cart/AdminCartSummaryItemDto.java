@@ -6,5 +6,5 @@ import pl.nowogorski.shop.product.dto.ProductDto;
 import java.math.BigDecimal;
 
 @Builder
-public record CartSummaryItemDto(Long id, int quantity, ProductDto product, BigDecimal grossValue) {
+public record AdminCartSummaryItemDto(Long id, int quantity, ProductDto product, BigDecimal grossValue) {
 }
