@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public record AdminSummaryDto(BigDecimal grossValue) {
+public record SummaryDto(BigDecimal grossValue) {
 }

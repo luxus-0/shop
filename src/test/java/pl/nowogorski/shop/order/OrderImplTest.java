@@ -6,8 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.nowogorski.shop.admin.cart.AdminCartItemRepository;
-import pl.nowogorski.shop.admin.cart.AdminCartRepository;
+import pl.nowogorski.shop.admin.cart.CartItemRepository;
+import pl.nowogorski.shop.admin.cart.CartRepository;
 import pl.nowogorski.shop.mailsender.EmailClient;
 import pl.nowogorski.shop.mailsender.FakeEmailService;
 import pl.nowogorski.shop.order.dto.OrderDto;
@@ -30,7 +30,7 @@ class OrderImplTest {
     @InjectMocks
     private OrderImpl orderImpl;
     @Mock
-    private AdminCartRepository adminCartRepository;
+    private CartRepository cartRepository;
     @Mock
     private ShipmentRepository shipmentRepository;
 
@@ -43,14 +43,14 @@ class OrderImplTest {
     @Mock
     private OrderRowRepository orderRowRepository;
     @Mock
-    private AdminCartItemRepository adminCartItemRepository;
+    private CartItemRepository cartItemRepository;
 
     @Test
     @DisplayName("should return order summary")
     void shouldReturnPlaceOrder() {
         //given
         OrderDto orderDto = createOrderDto();
-        when(adminCartRepository.findById(any())).thenReturn(createCart());
+        when(cartRepository.findById(any())).thenReturn(createCart());
         when(shipmentRepository.findById(any())).thenReturn(createShipment());
         when(paymentRepository.findById(any())).thenReturn(createPayment());
         when(orderRepository.save(any())).thenAnswer(invocation -> invocation.getArguments()[0]);

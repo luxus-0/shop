@@ -1,8 +1,8 @@
 package pl.nowogorski.shop.order;
 
 import org.springframework.stereotype.Service;
-import pl.nowogorski.shop.admin.cart.AdminCart;
-import pl.nowogorski.shop.admin.cart.AdminCartItem;
+import pl.nowogorski.shop.admin.cart.Cart;
+import pl.nowogorski.shop.admin.cart.CartItem;
 import pl.nowogorski.shop.customer.Customer;
 import pl.nowogorski.shop.order.dto.OrderDto;
 import pl.nowogorski.shop.payment.Payment;
@@ -16,19 +16,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static java.time.LocalDateTime.now;
-
 @Service
 class OrderMapper {
 
-    static Order createNewOrder(OrderDto orderDto, AdminCart adminCart, Shipment shipment, Payment payment) {
+    static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
         Customer customer = createCustomer(orderDto);
         Set<Customer> customers = Set.of(customer);
         return Order.builder()
                 .customers(customers)
-                .placeDate(adminCart.getCreated())
+                .placeDate(cart.getCreated())
                 .orderStatus(OrderStatus.NEW)
-                .grossAmount(calculateGrossAmount(adminCart.getItems(), shipment))
+                .grossAmount(calculateGrossAmount(cart.getItems(), shipment))
                 .payment(payment)
                 .build();
     }
@@ -45,7 +43,7 @@ class OrderMapper {
                 .build();
     }
 
-    static BigDecimal calculateGrossAmount(List<AdminCartItem> items, Shipment shipment) {
+    static BigDecimal calculateGrossAmount(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                 .reduce(BigDecimal::add)
@@ -72,7 +70,7 @@ class OrderMapper {
                 .build();
     }
 
-    static OrderRow mapToOrderRowWithQuantity(Long orderId, AdminCartItem adminCartItem) {
+    static OrderRow mapToOrderRowWithQuantity(Long orderId, CartItem adminCartItem) {
         return OrderRow.builder()
                 .quantity(adminCartItem.getQuantity())
                 .productId(adminCartItem.getProduct().getId())
@@ -97,20 +95,20 @@ class OrderMapper {
                 .build());
     }
 
-    static Optional<AdminCart> createCart() {
-        return Optional.of(AdminCart.builder()
+    static Optional<Cart> createCart() {
+        return Optional.of(Cart.builder()
                 .id(1L)
                 .created(LocalDate.now())
                 .items(createItems())
                 .build());
     }
 
-    private static List<AdminCartItem> createItems() {
+    private static List<CartItem> createItems() {
         return List.of(createCartItem1(), createCartItem2());
     }
 
-    private static AdminCartItem createCartItem2() {
-        return AdminCartItem.builder()
+    private static CartItem createCartItem2() {
+        return CartItem.builder()
                 .id(2L)
                 .cartId(1L)
                 .quantity(1)
@@ -121,8 +119,8 @@ class OrderMapper {
                 .build();
     }
 
-    private static AdminCartItem createCartItem1() {
-        return AdminCartItem.builder()
+    private static CartItem createCartItem1() {
+        return CartItem.builder()
                 .id(1L)
                 .cartId(1L)
                 .quantity(1)
