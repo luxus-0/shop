@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CartSummaryDto(Long id, List<CartSummaryItemDto> items, SummaryDTO summary) {
+public record CartSummaryDto(Long id, List<CartSummaryItemDto> items, SummaryDto summary) {
 }

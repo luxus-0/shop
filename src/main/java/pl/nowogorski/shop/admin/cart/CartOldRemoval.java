@@ -38,9 +38,5 @@ class CartOldRemoval {
             cartItemRepository.deleteAllByCardIdIn(cartId);
             cartRepository.deleteAllByIdIn(cartId);
         }
-        /*carts.forEach(cart -> {
-            cartItemRepository.deleteByCartId(cart.getId());
-            cartRepository.deleteCardById(cart.getId());
-        });*/
     }
 }

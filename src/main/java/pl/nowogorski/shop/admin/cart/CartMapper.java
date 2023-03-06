@@ -2,6 +2,7 @@ package pl.nowogorski.shop.admin.cart;
 
 import org.springframework.stereotype.Service;
 import pl.nowogorski.shop.product.Product;
+import pl.nowogorski.shop.product.dto.ProductDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,8 +47,8 @@ class CartMapper {
         return cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
     }
 
-    private static SummaryDTO mapToSummary(List<CartItem> items) {
-        return SummaryDTO.builder()
+    private static SummaryDto mapToSummary(List<CartItem> items) {
+        return SummaryDto.builder()
                 .grossValue(sumGrossValue(items))
                 .build();
     }

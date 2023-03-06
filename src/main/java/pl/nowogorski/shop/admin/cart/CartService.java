@@ -9,16 +9,14 @@ import pl.nowogorski.shop.product.ProductRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static java.time.LocalDateTime.now;
-
 @Service
 @RequiredArgsConstructor
-class CartRepositoryImpl {
+class CartService {
 
     private CartRepository cartRepository;
     private ProductRepository productRepository;
 
-    CartRepositoryImpl(CartRepository cartRepository, ProductRepository productRepository) {
+    CartService(CartRepository cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
     }
@@ -44,21 +42,31 @@ class CartRepositoryImpl {
     }
 
     private Cart getInitializedCart(Long id) {
-        if(id == null || id <= 0){
-            return cartRepository.save(Cart.builder().created(LocalDate.now()).build());
+        if (id == null || id <= 0) {
+            return saveNewCart();
         }
-        return cartRepository.findById(id).orElseThrow();
+        return getCart(id);
+    }
+
+    private Cart getCart(Long id) {
+        return cartRepository.findById(id)
+                .orElseGet(this::saveNewCart);
+    }
+
+    private Cart saveNewCart() {
+        return cartRepository.save(
+                Cart.builder()
+                        .created(LocalDate.now())
+                        .build());
     }
 
     @Transactional
     public Cart actualizeCart(Long id, List<CartProductDto> cartProductDtos) {
         Cart cart = cartRepository.findById(id).orElseThrow();
-        cart.getItems().forEach(cartItem -> {
-            cartProductDtos.stream()
-                    .filter(cartProductDto -> cartItem.getProduct().getId().equals(cartProductDto.productId()))
-                    .findFirst()
-                    .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity()));
-        });
+        cart.getItems().forEach(cartItem -> cartProductDtos.stream()
+                .filter(cartProductDto -> cartItem.getProduct().getId().equals(cartProductDto.productId()))
+                .findFirst()
+                .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity())));
         return cart;
     }
 }
