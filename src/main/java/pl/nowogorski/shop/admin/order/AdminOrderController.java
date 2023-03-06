@@ -4,11 +4,10 @@ package pl.nowogorski.shop.admin.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.nowogorski.shop.admin.order.dto.AdminOrderDto;
+
+import java.util.Map;
 
 import static pl.nowogorski.shop.admin.order.AdminOrderMapper.mapToPageDtos;
 
@@ -19,6 +18,7 @@ public class AdminOrderController {
 
     private final AdminOrderService adminOrderService;
 
+    @GetMapping
     Page<AdminOrderDto> getOrders(Pageable pageable){
         return mapToPageDtos(adminOrderService.getOrders(pageable));
     }
@@ -27,4 +27,11 @@ public class AdminOrderController {
     public AdminOrder getOrders(@PathVariable Long id) {
         return adminOrderService.getOrder(id);
     }
+
+    @PatchMapping("/{id}")
+    public void actualizeOrder(@PathVariable Long id, @RequestBody Map<String, String> values){
+        adminOrderService.updateOrder(id, values);
+    }
+
+
 }
