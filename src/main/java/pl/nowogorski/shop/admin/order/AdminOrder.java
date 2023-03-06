@@ -2,6 +2,7 @@ package pl.nowogorski.shop.admin.order;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import pl.nowogorski.shop.admin.payment.AdminPayment;
 import pl.nowogorski.shop.customer.Customer;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "'order'")
 @Getter
+@Setter
 public class AdminOrder {
 
     @Id
